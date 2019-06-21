@@ -27,6 +27,7 @@
                         <th scope="col">תעודת זהות</th>
                         <th scope="col">שם</th>
                         <th scope="col">גיל</th>
+                        <th scope="col">תפקיד</th>
                         <th scope="col">שכר לשעה (20 - 100)</th>
                         <th scope="col">פעולות</th>
                     </tr>
@@ -37,6 +38,12 @@
                         <td>{{requestUser.userId}}</td>
                         <td>{{requestUser.fullName}}</td>
                         <td>{{requestUser.age}}</td>
+                        <td>
+                            <div class="input-group">
+                                <input type="text" name="job" class="form-control formInput"
+                                    [(ngModel)]="requestUsers[i].job" placeholder="אנא הכנס תפקיד" />
+                            </div>
+                        </td>
                         <td>
                             <div class="input-group">
                                 <input type="number" name="salary" class="form-control formInput"
