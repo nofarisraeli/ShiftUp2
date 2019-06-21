@@ -31,11 +31,12 @@ let self = module.exports = {
         return self.GetBusinessDetails({ "_id": DAL.GetObjectId(businessId) });
     },
 
-    AddWorkerToBusiness(businessId, userId, salary) {
+    AddWorkerToBusiness(businessId, userId, job, salary) {
         return new Promise((resolve, reject) => {
             DAL.UpdateOne(usersCollectionName, { userId: userId }, {
                 $set: {
                     businessId: DAL.GetObjectId(businessId),
+                    job: job,
                     salary: salary
                 },
                 $unset: {

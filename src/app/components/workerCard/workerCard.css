@@ -1,5 +1,5 @@
 .worker {
-    height: 150px;
+    height: 160px;
     width: 250px;
     margin: auto;
     border: 1px solid #666;
@@ -17,7 +17,7 @@
     align-items: center;
     justify-content: center;
     font-weight: bold;
-    font-size: 14px;
+    font-size: 16px;
 }
 
 .btn-icon {

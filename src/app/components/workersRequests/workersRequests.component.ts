@@ -34,6 +34,7 @@ export class WorkersRequestsComponent {
                 this.requestUsers.forEach((reqUser) => {
                     reqUser.fullName = reqUser.firstName + ' ' + reqUser.lastName;
                     reqUser.age = this.calcAge(reqUser.birthDate);
+                    reqUser.job = "";
                     reqUser.salary = 20;
                 });
             }
@@ -61,16 +62,25 @@ export class WorkersRequestsComponent {
     }
 
     acceptRequestHandler = (requestUser: any) => {
-        if (requestUser.salary < 20 || requestUser.salary > 100) {
+        if (!requestUser.job) {
             Swal.fire({
                 title: "שגיאה!",
-                text: "שכר לשעה לא בטווח המותר: 20 עד 100",
-                type: "error",
+                text: "יש להגדיר ראשית תפקיד לעובד",
+                type: "warning",
                 confirmButtonText: "אישור"
             });
         }
         else {
-            this.workersService.AddWorkerToBusiness(requestUser.userId, requestUser.salary)
+            if (requestUser.salary < 20 || requestUser.salary > 100) {
+                Swal.fire({
+                    title: "שגיאה!",
+                    text: "שכר לשעה לא בטווח המותר: 20 עד 100",
+                    type: "warning",
+                    confirmButtonText: "אישור"
+                });
+            }
+            else {
+                this.workersService.AddWorkerToBusiness(requestUser.userId, requestUser.job, requestUser.salary)
                 .then(() => {
                     this.removeRequest(requestUser._id);
                     Swal.fire({
@@ -93,6 +103,7 @@ export class WorkersRequestsComponent {
                     });
                     return;
                 });
+            }
         }
     }
 

@@ -105,6 +105,7 @@ let self = module.exports = {
                         "fullName": worker.firstName + " " + worker.lastName,
                         "birthDate": worker.birthDate,
                         "userId": worker.userId,
+                        "job": worker.job,
                         "salary": worker.salary,
                         "isManager": worker.isManager,
                         "requests": worker.requests
