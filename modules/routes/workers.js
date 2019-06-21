@@ -35,7 +35,7 @@ router.post("/addWorkerToBusiness", middlewares.CheckManager, (req, res) => {
     const businessId = req.user.businessId;
 
     if (businessId) {
-        workersBL.AddWorkerToBusiness(businessId, req.body.userId, req.body.salary)
+        workersBL.AddWorkerToBusiness(businessId, req.body.userId, req.body.job, req.body.salary)
             .then(business => {
                 res.end();
             }).catch(err => {
