@@ -51,4 +51,19 @@ router.get("/getWorkersForBusiness", (req, res) => {
     }
 });
 
+router.get("/getJobsOfBusiness", (req, res) => {
+    const businessId = req.user.businessId;
+
+    if (businessId) {
+        businessesBL.GetJobsOfBusiness(businessId)
+            .then(jobs => {
+                res.send([...jobs]);
+            }).catch(err => {
+                res.status(500).end();
+            })
+    } else {
+        res.status(500).end();
+    }
+})
+
 module.exports = router;

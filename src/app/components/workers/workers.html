@@ -14,13 +14,48 @@
             <i class="btn-icon fas fa-trash"></i>
         </button>
     </div>
-    <div class="filterContainer input-group" *ngIf="allWorkers && allWorkers.length > 0">
+    <div class="searchContainer input-group" *ngIf="allWorkers && allWorkers.length > 0">
         <input type="text" class="form-control" placeholder="חיפוש" [(ngModel)]="workerSearchText"
-            (keyup)="SearchWorkerHandler()" (keydown.esc)="ResetSearchWorkerHandler()" />
+            (keyup)="SearchWorkerHandler()" (keydown.esc)="onFilterReset()" />
         <div class="search-icon-container">
             <i class="fas fa-search"></i>
         </div>
     </div>
+    <form [formGroup]="filterForm" (ngSubmit)="onFilterSubmit()" (onReset)="onFilterReset()">
+        <span class="filterTitle">סינון מתקדם</span>
+        <div class="filterContainer">
+            <div class="ageFilter form-group">
+                <label>גיל</label>
+                <input type="number" class="form-control" placeholder="גיל מינימלי"
+                    formControlName="minAge" name="minAge" min="0" />
+                <input type="number" class="form-control" placeholder="גיל מקסימלי"
+                    formControlName="maxAge" name="maxAge" min="0" />
+            </div>
+            <div class="salaryFilter form-group">
+                <label>שכר שעתי (20 - 100)</label>
+                <input type="number" class="form-control" placeholder="שכר שעתי מינימלי"
+                    formControlName="minSalary" name="minSalary" min="20" max="100" />
+                <input type="number" class="form-control" placeholder="שכר שעתי מקסימלי"
+                    formControlName="maxSalary" name="maxSalary" min="20" max="100" />
+            </div>
+            <div class="jobFilter form-group">
+                <label>תפקיד</label>
+                <select formControlName="job" class="form-control" id="job">
+                    <option value="בחר תפקיד" selected>בחר תפקיד</option>
+                    <option *ngFor="let job of allJobs" [ngValue]="job">{{ job }}</option>
+                </select>
+            </div>
+            <div class="input-group submitButtonContainer">
+                <button type="reset" class="btn btn-secondary btn-raised" (click)="onFilterReset()">
+                    אפס סינון
+                </button>
+                <button type="submit" class="btn btn-primary btn-raised">
+                    סנן
+                    <i class="fas fa-filter"></i>
+                </button>
+            </div>
+        </div>
+    </form>
     <div *ngIf="allWorkers && filteredWorkers">
         <div class="workersContainer">
             <div id="cards-container">

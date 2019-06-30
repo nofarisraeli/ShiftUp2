@@ -186,6 +186,22 @@ let self = module.exports = {
                 }))
             }).catch(reject)
         });
+    },
+
+    GetJobsOfBusiness(businessId) {
+        return new Promise((resolve, reject) => {
+            let businessFilter = {
+                "businessId": DAL.GetObjectId(businessId)
+            };
+            let jobProjection = {
+                "job": 1
+            };
+
+            DAL.FindSpecific(usersCollectionName, businessFilter, jobProjection).then(workers => {
+                const jobs = new Set(workers.filter(worker => worker.job).map(worker => worker.job));
+                resolve(jobs);
+            }).catch(() => reject);
+        });
     }
 
 };
