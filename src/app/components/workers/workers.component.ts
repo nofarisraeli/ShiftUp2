@@ -242,10 +242,12 @@ export class WorkersComponent implements AfterViewChecked {
         } else {
             console.log(advnacedFilter);
             Swal.fire({
-                title: "הפעולה הצליחה",
-                type: "success",
-                text: "סינון תקין",
-                confirmButtonText: "אישור"
+                background: "#009688",
+                html: "<span style='color: #eee; font-size: 26px; font-weight: bold;'>הסינון בוצע בהצלחה</span>",
+                position: "top",
+                showConfirmButton: false,
+                timer: 1500,
+                toast: true
             });
         }
     }
