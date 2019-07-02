@@ -3,7 +3,7 @@ import { Router } from '@angular/router';
 import { BusinessesService } from '../../services/businesses/businesses.service';
 import { WorkersService } from '../../services/workers/workers.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
-import { isArray, isNumber } from 'util';
+import { isNumber } from 'util';
 
 declare let Swal: any;
 declare let $: any;
@@ -29,6 +29,7 @@ export class WorkersComponent implements AfterViewChecked {
         maxSalary: new FormControl(),
         job: new FormControl()
     });
+    showAdvancedFilter: boolean = false;
 
     constructor(private cdRef:ChangeDetectorRef,
         private businessesService: BusinessesService,
@@ -48,24 +49,24 @@ export class WorkersComponent implements AfterViewChecked {
 
         this.businessesService.GetJobsOfBusiness().then((jobs: any) => {
             this.allJobs = jobs;
+        });
 
-            this.filterForm = new FormGroup({
-                minAge: new FormControl(
-                    Validators.min(0)
-                ),
-                maxAge: new FormControl(
-                    Validators.min(0)
-                ),
-                minSalary: new FormControl(
-                    Validators.min(20),
-                    Validators.max(100)
-                ),
-                maxSalary: new FormControl(
-                    Validators.min(20),
-                    Validators.max(100)
-                ),
-                job: new FormControl("בחר תפקיד")
-            });
+        this.filterForm = new FormGroup({
+            minAge: new FormControl(
+                Validators.min(0)
+            ),
+            maxAge: new FormControl(
+                Validators.min(0)
+            ),
+            minSalary: new FormControl(
+                Validators.min(20),
+                Validators.max(100)
+            ),
+            maxSalary: new FormControl(
+                Validators.min(20),
+                Validators.max(100)
+            ),
+            job: new FormControl()
         });
     }
 
@@ -163,7 +164,19 @@ export class WorkersComponent implements AfterViewChecked {
         }
     }
 
+    onShowAdvancedFilterClick = () => {
+        this.showAdvancedFilter = !this.showAdvancedFilter;
+        if (!this.showAdvancedFilter) {
+            this.filterForm.reset();
+        }
+    }
+
+    onFieldReset = (fieldName: any) => {
+        this.filterForm.controls[fieldName].reset();
+    }
+
     onFilterSubmit = () => {
+        let advancedFilter: any = {};
         const minAge = this.filterForm.get("minAge").value;
         const maxAge = this.filterForm.get("maxAge").value;
         const minSalary = this.filterForm.get("minSalary").value;
@@ -171,68 +184,70 @@ export class WorkersComponent implements AfterViewChecked {
         const job = this.filterForm.get("job").value;
 
         let errorMessages: Array<string> = [];
-        let advnacedFilter: any = {};
 
+        // Minimum Age
         if (isNumber(minAge)) {
-            advnacedFilter.minAge = minAge;
             if (minAge < 0) {
                 errorMessages.push("גיל מינימלי שלילי לא תקין");
-                advnacedFilter.minAge = null;
+            } else {
+                advancedFilter.minAge = minAge;
             }
         }
 
+        // Maximum Age
         if (isNumber(maxAge)) {
-            advnacedFilter.maxAge = maxAge;
             if (maxAge < 0) {
                 errorMessages.push("גיל  מקסימלי שלילי לא תקין");
-                advnacedFilter.maxAge = null;
             }
-            if (advnacedFilter.minAge && minAge > maxAge) {
+            if (advancedFilter.minAge && minAge > maxAge) {
                 errorMessages.push("גיל מינימלי גדול מגיל מקסימלי");
-                advnacedFilter.maxAge = null;
+            }
+
+            if (!errorMessages.length || errorMessages.length && !errorMessages[errorMessages.length - 1].includes("גיל מקסימלי")) {
+                advancedFilter.maxAge = maxAge;
             }
         }
 
+        // Minimum Salary
         if (isNumber(minSalary)) {
-            advnacedFilter.minSalary = minSalary;
             if (minSalary < 20 || minSalary > 100) {
                 errorMessages.push("שכר שעתי מינימלי לא בטווח המותר");
-                advnacedFilter.minSalary = null;
+            } else {
+                advancedFilter.minSalary = minSalary;
             }
         }
 
+        // Maximum Salary
         if (isNumber(maxSalary)) {
-            advnacedFilter.maxSalary = maxSalary;
             if (maxSalary < 20 || maxSalary > 100) {
                 errorMessages.push("שכר שעתי מקסימלי לא בטווח המותר");
-                advnacedFilter.maxSalary = null;
             }
-            if (advnacedFilter.minSalary && minSalary > maxSalary) {
+            if (advancedFilter.minSalary && minSalary > maxSalary) {
                 errorMessages.push("שכר שעתי מינימלי גדול משכר שעתי מקסימלי");
-                advnacedFilter.maxSalary = null;
+            }
+
+            if (!errorMessages.length || errorMessages.length && !errorMessages[errorMessages.length - 1].includes("שכר שעתי מקסימלי")) {
+                advancedFilter.maxSalary = maxSalary;
             }
         }
 
-        if (!isArray(job) && job != "בחר תפקיד") {
-            advnacedFilter.job = job;
+        // Job
+        if (job) {
             if (!this.allJobs.includes(job)) {
                 errorMessages.push("תפקיד לא תקין");
-                advnacedFilter.job = null;
+            } else {
+                advancedFilter.job = job;
             }
         }
 
         if (errorMessages.length) {
-            let errorMessage = "";
-            for (let i = 0; i < errorMessages.length; i++) {
-                errorMessage += "<div>" + errorMessages[i] + "</div>";
-            }
             Swal.fire({
                 title: "שגיאה",
                 type: "error",
-                html: "<div" + errorMessage + "</div>",
+                html: "<div" + errorMessages.map(message => "<div>" + message + "</div>").toString() + "</div>",
                 confirmButtonText: "אישור"
             });
-        } else if ($.isEmptyObject(advnacedFilter)) {
+        } else if ($.isEmptyObject(advancedFilter)) {
             Swal.fire({
                 title: "לא הוזן סינון",
                 type: "warning",
@@ -240,7 +255,7 @@ export class WorkersComponent implements AfterViewChecked {
                 confirmButtonText: "אישור"
             });
         } else {
-            console.log(advnacedFilter);
+            console.log(advancedFilter);
             Swal.fire({
                 background: "#009688",
                 html: "<span style='color: #eee; font-size: 26px; font-weight: bold;'>הסינון בוצע בהצלחה</span>",

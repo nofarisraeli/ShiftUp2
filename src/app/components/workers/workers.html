@@ -9,9 +9,15 @@
             <ng-template #multi> ({{manager.requests.length}}) בקשות הצטרפות ממתינות  </ng-template>
             <i class="btn-icon fas fa-bell"></i>
         </button>
-        <button class="btn btn-dark btn-raised delete-all-btn" (click)="deleteAllWorkersHandler()" *ngIf="allWorkers.length > 0">
+        <button class="btn btn-primary btn-raised advance-filter-btn" [ngClass]="{'btn-primary': !showAdvancedFilter, 'btn-secondary': showAdvancedFilter}"
+            *ngIf="allWorkers.length > 0" (click)="onShowAdvancedFilterClick()">
+            סינון מתקדם
+            <i *ngIf="!showAdvancedFilter" class="fas fa-filter btn-icon"></i>
+            <i *ngIf="showAdvancedFilter" class="fas fa-times btn-icon"></i>
+        </button>
+        <button class="btn btn-secondary btn-raised delete-all-btn" (click)="deleteAllWorkersHandler()" *ngIf="allWorkers.length > 0">
             מחיקת כל העובדים
-            <i class="btn-icon fas fa-trash"></i>
+            <i class="fas fa-trash btn-icon"></i>
         </button>
     </div>
     <div class="searchContainer input-group" *ngIf="allWorkers && allWorkers.length > 0">
@@ -21,37 +27,72 @@
             <i class="fas fa-search"></i>
         </div>
     </div>
-    <form [formGroup]="filterForm" (ngSubmit)="onFilterSubmit()" (onReset)="onFilterReset()">
-        <span class="filterTitle">סינון מתקדם</span>
+    <form *ngIf="showAdvancedFilter" [formGroup]="filterForm" (ngSubmit)="onFilterSubmit()" (onReset)="onFilterReset()" class="advancedFilterForm">
         <div class="filterContainer">
             <div class="ageFilter form-group">
                 <label>גיל</label>
-                <input type="number" class="form-control" placeholder="גיל מינימלי"
-                    formControlName="minAge" name="minAge" min="0" />
-                <input type="number" class="form-control" placeholder="גיל מקסימלי"
-                    formControlName="maxAge" name="maxAge" min="0" />
+                <div class="input-group">
+                    <input type="number" class="form-control" placeholder="גיל מינימלי"
+                        formControlName="minAge" name="minAge" min="0" (keydown.esc)="onFieldReset($event.target.name)" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-raised btn-sm btn-secondary fieldResetButton" (click)="onFieldReset('minAge')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="number" class="form-control" placeholder="גיל מקסימלי"
+                        formControlName="maxAge" name="maxAge" min="0" (keydown.esc)="onFieldReset($event.target.name)" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-raised btn-sm btn-secondary fieldResetButton" (click)="onFieldReset('maxAge')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="salaryFilter form-group">
                 <label>שכר שעתי (20 - 100)</label>
-                <input type="number" class="form-control" placeholder="שכר שעתי מינימלי"
-                    formControlName="minSalary" name="minSalary" min="20" max="100" />
-                <input type="number" class="form-control" placeholder="שכר שעתי מקסימלי"
-                    formControlName="maxSalary" name="maxSalary" min="20" max="100" />
+                <div class="input-group">
+                    <input type="number" class="form-control" placeholder="שכר שעתי מינימלי"
+                        formControlName="minSalary" name="minSalary" min="20" max="100" (keydown.esc)="onFieldReset($event.target.name)" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-raised btn-sm btn-secondary fieldResetButton" (click)="onFieldReset('minSalary')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+                <div class="input-group">
+                    <input type="number" class="form-control" placeholder="שכר שעתי מקסימלי"
+                        formControlName="maxSalary" name="maxSalary" min="20" max="100" (keydown.esc)="onFieldReset($event.target.name)" />
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-raised btn-sm btn-secondary fieldResetButton" (click)="onFieldReset('maxSalary')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
             <div class="jobFilter form-group">
                 <label>תפקיד</label>
-                <select formControlName="job" class="form-control" id="job">
-                    <option value="בחר תפקיד" selected>בחר תפקיד</option>
-                    <option *ngFor="let job of allJobs" [ngValue]="job">{{ job }}</option>
-                </select>
+                <div class="input-group">
+                    <select formControlName="job" class="form-control" id="job">
+                        <!-- <option value="בחר תפקיד" selected>בחר תפקיד</option> -->
+                        <option *ngFor="let job of allJobs" [ngValue]="job">{{ job }}</option>
+                    </select>
+                    <div class="input-group-append">
+                        <button type="button" class="btn btn-raised btn-sm btn-secondary fieldResetButton" (click)="onFieldReset('job')">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
             </div>
+            <div style="width: 5%"></div>
             <div class="input-group submitButtonContainer">
-                <button type="reset" class="btn btn-secondary btn-raised" (click)="onFilterReset()">
-                    אפס סינון
-                </button>
                 <button type="submit" class="btn btn-primary btn-raised">
                     סנן
                     <i class="fas fa-filter"></i>
+                </button>
+                <button type="reset" class="btn btn-secondary btn-raised" (click)="onFilterReset()">
+                    אפס סינון
                 </button>
             </div>
         </div>
