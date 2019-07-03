@@ -72,4 +72,11 @@ export class WorkersService extends BasicService {
             .then((result: any) => result)
             .catch((err: any) => null);
     }
+
+    GetFilteredWorkers(filter: any) {
+        return super.post(this.prefix + '/getFilteredWorkers', filter)
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
 }

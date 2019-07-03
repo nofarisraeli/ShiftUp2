@@ -35,8 +35,8 @@
                     <input type="number" class="form-control" placeholder="גיל מינימלי"
                         formControlName="minAge" name="minAge" min="0" (keydown.esc)="onFieldReset($event.target.name)" />
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-raised btn-sm btn-secondary fieldResetButton" (click)="onFieldReset('minAge')">
-                            <i class="fas fa-trash"></i>
+                        <button type="button" class="btn btn-raised btn-sm fieldResetButton" (click)="onFieldReset('minAge')">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
@@ -44,8 +44,8 @@
                     <input type="number" class="form-control" placeholder="גיל מקסימלי"
                         formControlName="maxAge" name="maxAge" min="0" (keydown.esc)="onFieldReset($event.target.name)" />
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-raised btn-sm btn-secondary fieldResetButton" (click)="onFieldReset('maxAge')">
-                            <i class="fas fa-trash"></i>
+                        <button type="button" class="btn btn-raised btn-sm fieldResetButton" (click)="onFieldReset('maxAge')">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
@@ -56,8 +56,8 @@
                     <input type="number" class="form-control" placeholder="שכר שעתי מינימלי"
                         formControlName="minSalary" name="minSalary" min="20" max="100" (keydown.esc)="onFieldReset($event.target.name)" />
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-raised btn-sm btn-secondary fieldResetButton" (click)="onFieldReset('minSalary')">
-                            <i class="fas fa-trash"></i>
+                        <button type="button" class="btn btn-raised btn-sm fieldResetButton" (click)="onFieldReset('minSalary')">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
@@ -65,8 +65,8 @@
                     <input type="number" class="form-control" placeholder="שכר שעתי מקסימלי"
                         formControlName="maxSalary" name="maxSalary" min="20" max="100" (keydown.esc)="onFieldReset($event.target.name)" />
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-raised btn-sm btn-secondary fieldResetButton" (click)="onFieldReset('maxSalary')">
-                            <i class="fas fa-trash"></i>
+                        <button type="button" class="btn btn-raised btn-sm fieldResetButton" (click)="onFieldReset('maxSalary')">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
@@ -75,12 +75,12 @@
                 <label>תפקיד</label>
                 <div class="input-group">
                     <select formControlName="job" class="form-control" id="job">
-                        <!-- <option value="בחר תפקיד" selected>בחר תפקיד</option> -->
+                        <option value="בחר תפקיד" selected>בחר תפקיד</option>
                         <option *ngFor="let job of allJobs" [ngValue]="job">{{ job }}</option>
                     </select>
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-raised btn-sm btn-secondary fieldResetButton" (click)="onFieldReset('job')">
-                            <i class="fas fa-trash"></i>
+                        <button type="button" class="btn btn-raised btn-sm fieldResetButton" (click)="onFieldReset('job')">
+                            <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
@@ -93,6 +93,7 @@
                 </button>
                 <button type="reset" class="btn btn-secondary btn-raised" (click)="onFilterReset()">
                     אפס סינון
+                    <i class="fas fa-trash-alt"></i>
                 </button>
             </div>
         </div>

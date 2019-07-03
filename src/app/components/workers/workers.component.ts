@@ -30,6 +30,8 @@ export class WorkersComponent implements AfterViewChecked {
         job: new FormControl()
     });
     showAdvancedFilter: boolean = false;
+    lastAdvancedFilter: any;
+    lastFilteredWorkersResult: Array<any>;
 
     constructor(private cdRef:ChangeDetectorRef,
         private businessesService: BusinessesService,
@@ -66,7 +68,7 @@ export class WorkersComponent implements AfterViewChecked {
                 Validators.min(20),
                 Validators.max(100)
             ),
-            job: new FormControl()
+            job: new FormControl("בחר תפקיד")
         });
     }
 
@@ -148,9 +150,9 @@ export class WorkersComponent implements AfterViewChecked {
         });
     }
 
-    SearchWorkerHandler = () => {
+    SearchWorkerHandler = (currentAdvancedFilter?: any) => {
         if (this.workerSearchText) {
-            this.filteredWorkers = this.allWorkers.filter((worker: any) => {
+            this.filteredWorkers = this.filteredWorkers.filter((worker: any) => {
                 const currWorkerFullName = worker.firstName + ' ' + worker.lastName;
                 const currWorkerFullNameReversed = worker.lastName + ' ' + worker.firstName;
 
@@ -158,16 +160,24 @@ export class WorkersComponent implements AfterViewChecked {
                     currWorkerFullNameReversed.indexOf(this.workerSearchText) == 0 ||
                     worker.userId.indexOf(this.workerSearchText) == 0
             });
+            // this.lastFilteredWorkersResult = this.allWorkers.map(worker => worker._id);
         }
         else {
             this.filteredWorkers = this.allWorkers;
+            if (this.lastFilteredWorkersResult) {
+                if (!currentAdvancedFilter || !$.isEmptyObject(currentAdvancedFilter)) {
+                    this.filteredWorkers = this.filteredWorkers.filter(worker => this.lastFilteredWorkersResult.includes(worker._id));
+                }
+            }
         }
     }
 
     onShowAdvancedFilterClick = () => {
         this.showAdvancedFilter = !this.showAdvancedFilter;
         if (!this.showAdvancedFilter) {
+            this.filteredWorkers = this.allWorkers;
             this.filterForm.reset();
+            this.lastAdvancedFilter = {};
         }
     }
 
@@ -234,7 +244,9 @@ export class WorkersComponent implements AfterViewChecked {
         // Job
         if (job) {
             if (!this.allJobs.includes(job)) {
-                errorMessages.push("תפקיד לא תקין");
+                if (job != "בחר תפקיד") {
+                    errorMessages.push("תפקיד לא תקין");
+                }
             } else {
                 advancedFilter.job = job;
             }
@@ -247,28 +259,67 @@ export class WorkersComponent implements AfterViewChecked {
                 html: "<div" + errorMessages.map(message => "<div>" + message + "</div>").toString() + "</div>",
                 confirmButtonText: "אישור"
             });
-        } else if ($.isEmptyObject(advancedFilter)) {
-            Swal.fire({
-                title: "לא הוזן סינון",
-                type: "warning",
-                text: "יש להשתמש בלפחות אחד משדות הסינון ולאחר מכן ללחוץ שנית על לחצן הסינון",
-                confirmButtonText: "אישור"
-            });
         } else {
-            console.log(advancedFilter);
-            Swal.fire({
-                background: "#009688",
-                html: "<span style='color: #eee; font-size: 26px; font-weight: bold;'>הסינון בוצע בהצלחה</span>",
-                position: "top",
-                showConfirmButton: false,
-                timer: 1500,
-                toast: true
-            });
+            if ($.isEmptyObject(advancedFilter)) {
+                // If filter form wasnt changed at all
+                if (!this.lastAdvancedFilter) {
+                    Swal.fire({
+                        title: "לא הוזן סינון",
+                        type: "warning",
+                        text: "יש להשתמש בלפחות שדה סינון אחד ולנסות שנית",
+                        confirmButtonText: "אישור"
+                    });
+                }
+                // Else The filter form cleaned by user
+                else {
+                    this.filteredWorkers = this.allWorkers;
+                    this.SearchWorkerHandler(advancedFilter);
+                }
+            } else if (this.lastAdvancedFilter && 
+                    this.lastAdvancedFilter.minAge == advancedFilter.minAge &&
+                    this.lastAdvancedFilter.maxAge == advancedFilter.maxAge &&
+                    this.lastAdvancedFilter.minSalary == advancedFilter.minSalary &&
+                    this.lastAdvancedFilter.maxSalary == advancedFilter.maxSalary &&
+                    this.lastAdvancedFilter.job == advancedFilter.job) {
+                Swal.fire({
+                    title: "לא בוצע שינוי",
+                    type: "warning",
+                    text: "תוצאות הסינון שנבחר כבר מופיעות על המסך, יש לשנות לפחות שדה אחד על מנת לסנן שנית",
+                    confirmButtonText: "אישור"
+                });
+            } else {
+                this.workersService.GetFilteredWorkers(advancedFilter).then(filteredWorkersResult => {
+                    this.lastFilteredWorkersResult = filteredWorkersResult;
+                    if (filteredWorkersResult) {
+                        this.filteredWorkers = this.allWorkers;
+                        this.filteredWorkers = this.filteredWorkers.filter(worker => filteredWorkersResult.includes(worker._id));
+                        this.SearchWorkerHandler(advancedFilter);
+                        Swal.fire({
+                            background: "#009688",
+                            html: "<span style='color: #eee; font-size: 26px; font-weight: bold;'>הסינון בוצע בהצלחה</span>",
+                            position: "top",
+                            showConfirmButton: false,
+                            timer: 1500,
+                            toast: true
+                        });
+                    }
+                }).catch(err => {
+                    Swal.fire({
+                        title: "שגיאה",
+                        type: "error",
+                        text: "אופס... משהו השתבש",
+                        confirmButtonText: "אישור"
+                    });
+                });
+            }
+            this.lastAdvancedFilter = advancedFilter;
         }
     }
 
     onFilterReset = () => {
         this.workerSearchText = "";
         this.filteredWorkers = this.allWorkers;
+        this.lastAdvancedFilter = {};
+        this.lastFilteredWorkersResult = this.allWorkers.map(worker => worker._id);
     }
 }
