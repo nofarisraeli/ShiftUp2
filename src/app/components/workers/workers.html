@@ -3,11 +3,11 @@
         עובדי העסק - {{business.name}}
     </h5>
     <div class="buttonsContainer" *ngIf="manager && allWorkers">
-        <button class="btn btn-dark btn-raised" style="background-color:#ef7975; direction: ltr"  (click)="showRequests()" *ngIf="manager.requests && manager.requests.length > 0">
+        <button class="btn btn-dark btn-raised" style="background-color:#ef7975;"  (click)="showRequests()" *ngIf="manager.requests && manager.requests.length > 0">
             <span *ngIf="manager.requests.length == 1; then single else multi"></span>
-            <ng-template #single>  בקשת הצטרפות ממתינה</ng-template>
-            <ng-template #multi> ({{manager.requests.length}}) בקשות הצטרפות ממתינות  </ng-template>
-            <i class="btn-icon fas fa-bell"></i>
+            <ng-template #single>בקשת הצטרפות ממתינה</ng-template>
+            <ng-template #multi>({{manager.requests.length}}) בקשות הצטרפות ממתינות</ng-template>
+            <i class="fas fa-bell btn-icon"></i>
         </button>
         <button class="btn btn-primary btn-raised advance-filter-btn" [ngClass]="{'btn-primary': !showAdvancedFilter, 'btn-secondary': showAdvancedFilter}"
             *ngIf="allWorkers.length > 0" (click)="onShowAdvancedFilterClick()">

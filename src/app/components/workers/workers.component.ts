@@ -156,9 +156,9 @@ export class WorkersComponent implements AfterViewChecked {
                 const currWorkerFullName = worker.firstName + ' ' + worker.lastName;
                 const currWorkerFullNameReversed = worker.lastName + ' ' + worker.firstName;
 
-                return currWorkerFullName.indexOf(this.workerSearchText) == 0 ||
-                    currWorkerFullNameReversed.indexOf(this.workerSearchText) == 0 ||
-                    worker.userId.indexOf(this.workerSearchText) == 0
+                return currWorkerFullName.indexOf(this.workerSearchText) != -1 ||
+                    currWorkerFullNameReversed.indexOf(this.workerSearchText) != -1 ||
+                    worker.userId.indexOf(this.workerSearchText) != -1
             });
             // this.lastFilteredWorkersResult = this.allWorkers.map(worker => worker._id);
         }
