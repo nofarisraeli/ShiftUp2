@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { GlobalService } from '../../services/global/global.service'
+import { GlobalService } from '../../services/global/global.service';
 import { EventService } from '../../services/event/event.service'
 import { LoginService } from '../../services/login/login.service';
 import { UsersService } from '../../services/users/users.service';
