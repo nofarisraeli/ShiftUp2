@@ -47,6 +47,7 @@ export class WorkersComponent implements AfterViewChecked {
             this.manager = workers.filter((worker: any) => worker.isManager)[0];
             this.allWorkers = workers.filter((worker: any) => !worker.isManager);
             this.filteredWorkers = this.allWorkers;
+            this.lastFilteredWorkersResult = this.allWorkers.map(worker => worker._id);
         });
 
         this.businessesService.GetJobsOfBusiness().then((jobs: any) => {
@@ -152,7 +153,11 @@ export class WorkersComponent implements AfterViewChecked {
 
     SearchWorkerHandler = (currentAdvancedFilter?: any) => {
         if (this.workerSearchText) {
-            this.filteredWorkers = this.filteredWorkers.filter((worker: any) => {
+            this.filteredWorkers = this.allWorkers.filter((worker: any) => {
+                if (this.lastFilteredWorkersResult.indexOf(worker._id) == -1) {
+                    return false;
+                }
+
                 const currWorkerFullName = worker.firstName + ' ' + worker.lastName;
                 const currWorkerFullNameReversed = worker.lastName + ' ' + worker.firstName;
 
@@ -160,7 +165,6 @@ export class WorkersComponent implements AfterViewChecked {
                     currWorkerFullNameReversed.indexOf(this.workerSearchText) != -1 ||
                     worker.userId.indexOf(this.workerSearchText) != -1
             });
-            // this.lastFilteredWorkersResult = this.allWorkers.map(worker => worker._id);
         }
         else {
             this.filteredWorkers = this.allWorkers;
@@ -174,11 +178,10 @@ export class WorkersComponent implements AfterViewChecked {
 
     onShowAdvancedFilterClick = () => {
         this.showAdvancedFilter = !this.showAdvancedFilter;
-        if (!this.showAdvancedFilter) {
-            this.filteredWorkers = this.allWorkers;
-            this.filterForm.reset();
-            this.lastAdvancedFilter = {};
-        }
+        this.filteredWorkers = this.allWorkers;
+        this.lastFilteredWorkersResult = this.allWorkers.map(worker => worker._id);
+        this.filterForm.reset();
+        this.lastAdvancedFilter = {};
     }
 
     onFieldReset = (fieldName: any) => {
@@ -284,7 +287,7 @@ export class WorkersComponent implements AfterViewChecked {
                 Swal.fire({
                     title: "לא בוצע שינוי",
                     type: "warning",
-                    text: "תוצאות הסינון שנבחר כבר מופיעות על המסך, יש לשנות לפחות שדה אחד על מנת לסנן שנית",
+                    text: "יש לשנות לפחות שדה אחד על מנת לסנן שנית",
                     confirmButtonText: "אישור"
                 });
             } else {
@@ -297,7 +300,7 @@ export class WorkersComponent implements AfterViewChecked {
                         Swal.fire({
                             background: "#009688",
                             html: "<span style='color: #eee; font-size: 26px; font-weight: bold;'>הסינון בוצע בהצלחה</span>",
-                            position: "top",
+                            position: "bottom",
                             showConfirmButton: false,
                             timer: 1500,
                             toast: true
