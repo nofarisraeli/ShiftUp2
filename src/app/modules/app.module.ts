@@ -33,6 +33,7 @@ import { MapComponent } from '../components/map/map.component';
 
 // Services
 import { EventService } from '../services/event/event.service'
+import { GlobalService } from '../services/global/global.service'
 
 // Routing
 import { Routing } from '../routes/app.routing'
@@ -74,6 +75,7 @@ import { Routing } from '../routes/app.routing'
         MapComponent
     ],
     providers: [
+        GlobalService,
         EventService
     ],
     bootstrap: [AppComponent]
