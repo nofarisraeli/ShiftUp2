@@ -6,6 +6,33 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
     <link rel="icon" href="assets/logo/ShiftUpIcon.png">
+    <script type="text/javascript"
+        src="http://www.bing.com/api/maps/mapcontrol?callback=bingMapCallback&key=uPvgq4Nh7bSJpV8LKmmB~L_aavPOS7_b9Tp4Bo2X8WQ~As2x0q-bbYoeLGwybYQpvBLT-OkwrPOQu9W7oJ8hcnQEpGnKawwTQzEEzPPpfxbu&setLang=he"
+        async defer></script>
+    <script type="text/javascript">
+        function bingMapCallback() {
+            var map = new Microsoft.Maps.Map(document.getElementById("bingMap"), {
+                credentials: 'uPvgq4Nh7bSJpV8LKmmB~L_aavPOS7_b9Tp4Bo2X8WQ~As2x0q-bbYoeLGwybYQpvBLT-OkwrPOQu9W7oJ8hcnQEpGnKawwTQzEEzPPpfxbu',
+                center: new Microsoft.Maps.Location(31, 35),
+                zoom: 7,
+            });
+
+            infobox = new Microsoft.Maps.Infobox(map.getCenter(), { visible: true });
+            infobox.setMap(map);
+
+            var pushpin = new Microsoft.Maps.Pushpin(new Microsoft.Maps.Location(0, 0), { title: "test" });
+
+            // Define the click event of the point
+            Microsoft.Maps.Events.addHandler(pushpin, 'click', function (e) {
+                console.log("pushpin click");
+                infobox.setOptions({
+                    location: e.primitive.getLocation(),
+                    description: "test infobox",
+                    visible: true
+                });
+            });
+        }
+    </script>
 </head>
 
 <body>

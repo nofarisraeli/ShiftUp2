@@ -5,6 +5,13 @@
     font-size: 1.2em;
 }
 
+.mapDescription {
+    text-align: center;
+    display: block;
+    margin: 10px;
+    font-size: 1em;
+}
+
 #bingMap {
     margin: auto;
     width: 600px;
