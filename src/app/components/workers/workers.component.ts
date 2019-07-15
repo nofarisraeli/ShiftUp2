@@ -276,6 +276,7 @@ export class WorkersComponent implements AfterViewChecked {
                 // Else The filter form cleaned by user
                 else {
                     this.filteredWorkers = this.allWorkers;
+                    this.lastFilteredWorkersResult = this.allWorkers.map(worker => worker._id);
                     this.SearchWorkerHandler(advancedFilter);
                 }
             } else if (this.lastAdvancedFilter && 
