@@ -29,6 +29,7 @@ import { StatisticsAgesComponent } from '../components/statistics/statisticsAges
 import { StatisticsSalariesComponent } from '../components/statistics/statisticsSalaries/statisticsSalaries.component';
 import { StatisticsShiftsComponent } from '../components/statistics/statisicsShifts/statisticsShifts.component';
 import { StatisticsConstraintsComponent } from '../components/statistics/statisticsConstraints/statisticsConstraints.component';
+import { MapComponent } from '../components/map/map.component';
 
 // Services
 import { EventService } from '../services/event/event.service'
@@ -69,7 +70,8 @@ import { Routing } from '../routes/app.routing'
         StatisticsAgesComponent,
         StatisticsSalariesComponent,
         StatisticsShiftsComponent,
-        StatisticsConstraintsComponent
+        StatisticsConstraintsComponent,
+        MapComponent
     ],
     providers: [
         EventService

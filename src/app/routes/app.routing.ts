@@ -17,6 +17,7 @@ import { WorkerComponent } from '../components/newUserRole/worker/worker.compone
 import { WorkerWaitComponent } from '../components/newUserRole/workerWait/workerWait.component';
 import { AuthGuard, LoginGuard, WorkerGuard, ManagerGuard } from '../guards/auth/auth.guard';
 import { StatelessUserGuard, WaitUserGuard, StateUserGuard } from '../guards/userRole/userRole.guard';
+import { MapComponent } from '../components/map/map.component';
 
 const routes: Routes = [
     {
@@ -26,6 +27,7 @@ const routes: Routes = [
             { path: 'constraintsForWorker', component: ConstraintsForWorkerComponent, canActivate: [WorkerGuard] },
             { path: 'constraints', component: ConstraintsComponent, canActivate: [ManagerGuard] },
             { path: 'statistics', component: StatisticsComponent, canActivate: [ManagerGuard] },
+            { path: 'map', component: MapComponent, canActivate: [ManagerGuard] },
             {
                 path: 'workers', canActivate: [ManagerGuard],
                 children: [

@@ -1,0 +1,12 @@
+.title {
+    text-align: center;
+    font-weight: bold;
+    margin: 10px;
+    font-size: 1.2em;
+}
+
+#bingMap {
+    margin: auto;
+    width: 600px;
+    height: 400px;
+}
