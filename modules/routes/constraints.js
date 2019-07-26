@@ -4,7 +4,9 @@ const middlewares = require('../middlewares');
 const router = express.Router();
 
 router.post("/getAllConstraints", (req, res) => {
-    constraintsBL.getAllConstraints(req.user, req.body.sortCol, req.body.sortDirection).then(data => {
+    let filter;
+    filter = { description:  "רופא", statusId: 2 , userId: "208203430"};
+    constraintsBL.getAllConstraints(req.user, req.body.sortCol, req.body.sortDirection, filter).then(data => {
         res.send(data);
     }).catch(err => {
         res.status(500).end();

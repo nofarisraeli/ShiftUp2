@@ -1,6 +1,7 @@
 const DAL = require('../DAL');
 const config = require('../../config');
 const enums = require('../enums');
+const usersBL = require('../BL/usersBL');
 
 const usersCollectionName = config.db.collections.users;
 const constraintsCollectionName = config.db.collections.constraints;
@@ -8,8 +9,9 @@ const constraintsReasonsCollectionName = config.db.collections.constraintsReason
 const statusTypeCollectionName = config.db.collections.statusType;
 
 let self = module.exports = {
-    getAllConstraints(user, sortCol, sortDirection) {
+    getAllConstraints(user, sortCol, sortDirection, filter) {
         let findQuery = { $match: null };
+        let usersJoinQuery = { $match: null };
 
         if (user.isManager) {
             findQuery["$match"] = { 'businessId': DAL.GetObjectId(user.businessId) };
@@ -18,7 +20,18 @@ let self = module.exports = {
             findQuery["$match"] = { 'userObjId': DAL.GetObjectId(user.id) };
         }
 
-        let usersJoinQuery = {
+        if(filter.statusId) {
+            findQuery["$match"].statusId = filter.statusId
+        }
+        if(filter.description) {
+            findQuery["$match"].description = filter.description
+        }
+        // if(filter.userId) {
+        //     findQuery["$match"].user["userId"] = filter.userId;                    
+        // }
+    
+
+        usersJoinQuery = {
             $lookup:
             {
                 from: usersCollectionName,
@@ -27,7 +40,11 @@ let self = module.exports = {
                 as: 'user',
             }
         };
+        
+       
 
+        console.log(usersJoinQuery);
+        console.log(findQuery);
         let statusTypeJoinQuery = {
             $lookup: {
                 from: statusTypeCollectionName,
