@@ -10,6 +10,7 @@ import { MainComponent } from '../components/main/main.component';
 import { LoginComponent } from '../components/login/login.component';
 import { HomeComponent } from '../components/home/home.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
+import { NotificationComponent } from '../components/navbar/notification/notification.component';
 import { ConstraintsComponent } from '../components/constraints/constraints.component';
 import { ConstraintsForWorkerComponent } from '../components/constraintsForWorker/constraintsForWorker.component';
 import { WorkersComponent } from '../components/workers/workers.component';
@@ -54,6 +55,7 @@ import { Routing } from '../routes/app.routing'
         ConstraintsComponent,
         ConstraintsForWorkerComponent,
         NavbarComponent,
+        NotificationComponent,
         WorkersComponent,
         CalendarComponent,
         ShiftCardComponent,
