@@ -6,7 +6,7 @@
 .btn-icon {
     font-size: 16px;
     margin-right: 5px;
-    color: #fff;
+    color: #eee;
 }
 
 .title {
@@ -44,10 +44,61 @@
     margin-right: 5px;
 }
 
-.filterContainer {
+.searchContainer {
     margin: auto;
     width: 400px;
     margin-bottom: 15px;
+}
+
+.advancedFilterForm {
+    animation-name: verticalPopup;
+    animation-duration: 300ms;
+}
+
+.filterContainer {
+    margin: auto;
+    margin-bottom: 15px;
+    display: flex;
+    justify-content: center;
+    width: 800px;
+}
+
+.filterTitle {
+    display: block;
+    text-align: center;
+    font-weight: bold;
+}
+
+.ageFilter, .salaryFilter, .jobFilter {
+    min-width: 25%;
+    margin: 0px 5px;
+}
+
+label {
+    font-size: 14px;
+}
+
+.fieldResetButton {
+    height: 30px;
+    position: relative;
+    top: 7.5px;
+}
+
+.submitButtonContainer {
+    display: flex;
+    width: 20%;
+    align-content: flex-end;
+}
+
+.submitButtonContainer > button {
+    width: 100%;
+    height: 35px;
+    font-size: 14px;
+}
+
+.submitButtonContainer > button > i {
+    color: #eee;
+    margin-right: 5px;
 }
 
 .loader {
@@ -64,8 +115,17 @@
 }
 
 .delete-all-btn {
-    direction: ltr;
     position: absolute;
     left: 0;
-    background-color: rgba(0,0,0,.5) !important;
+}
+
+.advance-filter-btn {
+    position: absolute;
+    right: 0;
+}
+
+@keyframes verticalPopup {
+    0% { height: 0px; opacity: 0; }
+    90% { height: 100px; opacity: 0; }
+    100% { height: 100px; opacity: 1; }
 }
