@@ -179,12 +179,14 @@ let self = module.exports = {
 
     GetWorkersAverageAge(businessId) {
         return new Promise((resolve, reject) => {
-            const businessWorkersFilter = { $match: {
-                $and: [
-                    { "businessId": DAL.GetObjectId(businessId) },
-                    { "isManager": false }
-                ]
-            }};
+            const businessWorkersFilter = {
+                $match: {
+                    $and: [
+                        { "businessId": DAL.GetObjectId(businessId) },
+                        { "isManager": false }
+                    ]
+                }
+            };
 
             const currentDate = new Date();
 
@@ -195,7 +197,7 @@ let self = module.exports = {
                         $avg: {
                             $subtract: [
                                 currentDate.getFullYear(),
-                                { $year: "$birthDate"}
+                                { $year: "$birthDate" }
                             ]
                         }
                     }
@@ -217,12 +219,14 @@ let self = module.exports = {
 
     GetWorkersGroupByAgesDecades(businessId) {
         return new Promise((resolve, reject) => {
-            const businessWorkersFilter = { $match: {
-                $and: [
-                    { "businessId": DAL.GetObjectId(businessId) },
-                    { "isManager": false }
-                ]
-            }};
+            const businessWorkersFilter = {
+                $match: {
+                    $and: [
+                        { "businessId": DAL.GetObjectId(businessId) },
+                        { "isManager": false }
+                    ]
+                }
+            };
 
             const currentDate = new Date();
 
@@ -230,16 +234,16 @@ let self = module.exports = {
                 $group: {
                     "_id": {
                         "decade": {
-                            $multiply: [ {
+                            $multiply: [{
                                 $floor: {
-                                    $divide: [ {
+                                    $divide: [{
                                         $subtract: [
                                             currentDate.getFullYear(),
                                             { $year: "$birthDate" }
                                         ]
-                                    }, 10 ]
+                                    }, 10]
                                 }
-                            } , 10 ]
+                            }, 10]
                         }
                     },
                     count: { $sum: 1 }
@@ -275,7 +279,7 @@ let self = module.exports = {
             const year = now.getFullYear();
             const month = now.getMonth();
             const dayOfMonth = now.getDate() + 1;
-            
+
             if (filter.minAge && filter.maxAge) {
                 filterConditions.birthDate = {
                     $gt: new Date(year - filter.maxAge - 1, month, dayOfMonth),
@@ -290,7 +294,7 @@ let self = module.exports = {
                     $gt: new Date(year - filter.maxAge - 1, month, dayOfMonth)
                 }
             }
-            
+
             // Salary
             if (filter.minSalary) {
                 filterConditions.salary = {
@@ -306,7 +310,7 @@ let self = module.exports = {
                     filterConditions.salary.$lte = filter.maxSalary;
                 }
             }
-            
+
             // Job
             if (filter.job) {
                 filterConditions.job = {
@@ -319,5 +323,19 @@ let self = module.exports = {
                 resolve(filteredWorkers.map(worker => worker._id));
             }).catch(err => reject)
         });
+    },
+
+    ReduceWorkersSalary(businessId) {
+        return DAL.MapReduce(usersCollectionName,
+            function () { emit(this.salary, 1); },
+            function (key, values) { return Array.sum(values) },
+            {
+                out: { inline: 1 },
+                query: {
+                    businessId: DAL.GetObjectId(businessId),
+                    salary: { $ne: null }
+                },
+            }
+        );
     }
 };

@@ -126,6 +126,14 @@ router.post("/getFilteredWorkers", (req, res) => {
     }).catch(err => {
         res.sendStatus(500);
     });
-})
+});
+
+router.get("/reduceWorkersSalary", middlewares.CheckManager, (req, res) => {
+    workersBL.ReduceWorkersSalary(req.user.businessId).then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).end();
+    });
+});
 
 module.exports = router;

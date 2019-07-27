@@ -1,4 +1,4 @@
-import { Component, ChangeDetectorRef, AfterViewChecked } from '@angular/core';
+import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { BusinessesService } from '../../services/businesses/businesses.service';
 import { WorkersService } from '../../services/workers/workers.service';
@@ -15,7 +15,7 @@ declare let $: any;
     styleUrls: ['./workers.css']
 })
 
-export class WorkersComponent implements AfterViewChecked {
+export class WorkersComponent {
     business: any = {};
     manager: any;
     allWorkers: Array<any>;
@@ -32,9 +32,10 @@ export class WorkersComponent implements AfterViewChecked {
     showAdvancedFilter: boolean = false;
     lastAdvancedFilter: any;
     lastFilteredWorkersResult: Array<any>;
+    showStats: boolean;
+    salaryStats: Array<any>;
 
-    constructor(private cdRef:ChangeDetectorRef,
-        private businessesService: BusinessesService,
+    constructor(private businessesService: BusinessesService,
         private workersService: WorkersService,
         private router: Router) { }
 
@@ -73,8 +74,14 @@ export class WorkersComponent implements AfterViewChecked {
         });
     }
 
-    ngAfterViewChecked() {
-        this.cdRef.detectChanges();
+    showSalaryStats() {
+        this.workersService.ReduceWorkersSalary().then(result => {
+            this.salaryStats = result.map(stat => {
+                return { "salary": stat._id, "amount": stat.value }
+            });
+
+            this.showStats = true;
+        });
     }
 
     showRequests = () => {
@@ -279,12 +286,12 @@ export class WorkersComponent implements AfterViewChecked {
                     this.lastFilteredWorkersResult = this.allWorkers.map(worker => worker._id);
                     this.SearchWorkerHandler(advancedFilter);
                 }
-            } else if (this.lastAdvancedFilter && 
-                    this.lastAdvancedFilter.minAge == advancedFilter.minAge &&
-                    this.lastAdvancedFilter.maxAge == advancedFilter.maxAge &&
-                    this.lastAdvancedFilter.minSalary == advancedFilter.minSalary &&
-                    this.lastAdvancedFilter.maxSalary == advancedFilter.maxSalary &&
-                    this.lastAdvancedFilter.job == advancedFilter.job) {
+            } else if (this.lastAdvancedFilter &&
+                this.lastAdvancedFilter.minAge == advancedFilter.minAge &&
+                this.lastAdvancedFilter.maxAge == advancedFilter.maxAge &&
+                this.lastAdvancedFilter.minSalary == advancedFilter.minSalary &&
+                this.lastAdvancedFilter.maxSalary == advancedFilter.maxSalary &&
+                this.lastAdvancedFilter.job == advancedFilter.job) {
                 Swal.fire({
                     title: "לא בוצע שינוי",
                     type: "warning",
