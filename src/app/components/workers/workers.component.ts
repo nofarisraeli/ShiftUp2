@@ -76,11 +76,21 @@ export class WorkersComponent {
 
     showSalaryStats() {
         this.workersService.ReduceWorkersSalary().then(result => {
-            this.salaryStats = result.map(stat => {
-                return { "salary": stat._id, "amount": stat.value }
-            });
+            if (!result) {
+                Swal.fire({
+                    title: "שגיאה",
+                    text: "החישוב נכשל",
+                    type: "error",
+                    confirmButtonText: "אישור"
+                });
+            }
+            else {
+                this.salaryStats = result.map(stat => {
+                    return { "salary": stat._id, "amount": stat.value }
+                });
 
-            this.showStats = true;
+                this.showStats = true;
+            }
         });
     }
 
