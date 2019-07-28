@@ -5,7 +5,7 @@ const router = express.Router();
 
 router.post("/getAllConstraints", (req, res) => {
     let filter;
-    filter = { description:  "רופא", statusId: 2 , userId: "208203430"};
+    // filter = { userId: "208203430"};
     constraintsBL.getAllConstraints(req.user, req.body.sortCol, req.body.sortDirection, filter).then(data => {
         res.send(data);
     }).catch(err => {

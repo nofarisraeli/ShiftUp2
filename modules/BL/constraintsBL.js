@@ -9,9 +9,9 @@ const constraintsReasonsCollectionName = config.db.collections.constraintsReason
 const statusTypeCollectionName = config.db.collections.statusType;
 
 let self = module.exports = {
-    getAllConstraints(user, sortCol, sortDirection, filter) {
+    getAllConstraints(user, sortCol, sortDirection, filter = null) {
         let findQuery = { $match: null };
-        let usersJoinQuery = { $match: null };
+        let usersJoinQuery = {$unwind : null }
 
         if (user.isManager) {
             findQuery["$match"] = { 'businessId': DAL.GetObjectId(user.businessId) };
@@ -20,16 +20,14 @@ let self = module.exports = {
             findQuery["$match"] = { 'userObjId': DAL.GetObjectId(user.id) };
         }
 
-        if(filter.statusId) {
-            findQuery["$match"].statusId = filter.statusId
+        if(filter) {
+            if(filter.statusId) {
+                findQuery["$match"].statusId = filter.statusId
+            }
+            if(filter.description) {
+                findQuery["$match"].description = filter.description
+            }
         }
-        if(filter.description) {
-            findQuery["$match"].description = filter.description
-        }
-        // if(filter.userId) {
-        //     findQuery["$match"].user["userId"] = filter.userId;                    
-        // }
-    
 
         usersJoinQuery = {
             $lookup:
@@ -37,14 +35,10 @@ let self = module.exports = {
                 from: usersCollectionName,
                 localField: 'userObjId',
                 foreignField: '_id',
-                as: 'user',
+                as: 'user'
             }
-        };
-        
-       
-
-        console.log(usersJoinQuery);
-        console.log(findQuery);
+        }
+    
         let statusTypeJoinQuery = {
             $lookup: {
                 from: statusTypeCollectionName,
@@ -69,7 +63,13 @@ let self = module.exports = {
             }
         }
 
-        let aggregateQuery = [findQuery, usersJoinQuery, statusTypeJoinQuery];
+        let aggregateQuery = [findQuery, usersJoinQuery ,statusTypeJoinQuery];
+        
+        if(filter && filter.userId){
+            let matchUser = {$match: {"user.userId": filter.userId}};
+            aggregateQuery.push(matchUser);
+        }
+  
         sortObj && (aggregateQuery.push(sortObj));
 
         return DAL.Aggregate(constraintsCollectionName, aggregateQuery);
