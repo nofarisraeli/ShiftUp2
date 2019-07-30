@@ -22,7 +22,7 @@ let self = module.exports = {
 
         if(filter) {
             if(filter.statusId) {
-                findQuery["$match"].statusId = filter.statusId
+                findQuery["$match"].statusId = parseInt(filter.statusId);
             }
             if(filter.description) {
                 findQuery["$match"].description = filter.description

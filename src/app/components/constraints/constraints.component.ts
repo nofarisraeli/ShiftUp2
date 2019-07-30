@@ -5,6 +5,7 @@ import { STATUS_CODE_NUMBER } from '../../enums/enums';
 import { UsersService } from "../../services/users/users.service";
 import { ActivatedRoute, Router } from "@angular/router";
 import { EventService } from '../../services/event/event.service';
+import { FormBuilder } from '@angular/forms';
 
 declare let Swal: any;
 
@@ -21,6 +22,12 @@ export class ConstraintsComponent implements OnInit {
     searchWord: string;
     startDateFilter: Date;
     endDateFilter: Date;
+    advancedFilter: Boolean;
+    constraintsReasons: any;
+    filterForm: any;
+    statusNamesEnum: any;
+    filterData: any;
+    userIdInvalid: Boolean;
 
     // sort variable
     statusColName: string = 'statusId';
@@ -34,13 +41,29 @@ export class ConstraintsComponent implements OnInit {
         private usersService: UsersService,
         private EventService: EventService,
         private route: ActivatedRoute,
+        private formBuilder: FormBuilder,
         private router: Router) {
+            
     }
 
     ngOnInit() {
+        this.advancedFilter = false;
         this.userSortCol = this.statusColName;
         this.userSortDirection = this.downSort;
+        this.statusNamesEnum = Object.values(STATUS_CODE);
+        this.InitiateFilterForm();
         this.InitiateConstraints();
+        this.InitiateConstraintsReasons();
+    }
+
+    InitiateFilterForm(){
+        this.filterForm = this.formBuilder.group({
+            statusId: '',
+            description: '',
+            userId:''
+          });
+          this.filterData = '';
+          this.userIdInvalid = false;
     }
 
     DeleteConstraint(conObjId: string, conIndex: number) {
@@ -88,7 +111,7 @@ export class ConstraintsComponent implements OnInit {
     }
 
     InitiateConstraints() {
-        this.constraintsService.getAllConstraints(this.userSortCol, this.userSortDirection).then((data: any) => {
+        this.constraintsService.getAllConstraints(this.userSortCol, this.userSortDirection, this.filterData).then((data: any) => {
             this.sourceConstraints = data;
             this.constraints = this.sourceConstraints;
 
@@ -124,6 +147,12 @@ export class ConstraintsComponent implements OnInit {
         }
     }
 
+    InitiateConstraintsReasons() {
+        this.constraintsService.getAllConstraintReasons().then((data: any) => {
+            this.constraintsReasons = data;
+        });
+    }
+
     getStatusLightColor(statusId: number) {
         switch (statusId) {
             case (STATUS_CODE_NUMBER.CONFIRMED):
@@ -132,6 +161,20 @@ export class ConstraintsComponent implements OnInit {
                 return "rgb(244, 67, 54)";
             case (STATUS_CODE_NUMBER.WAITING):
                 return "rgb(255, 193, 7)";
+        }
+    }
+
+    AdvancedFilterTable(data: any){
+        if(data.valid) {
+           this.searchWord = "";
+           this.startDateFilter = undefined;
+           this.endDateFilter = undefined;
+           this.userIdInvalid = false;
+            this.filterData = data.value;
+            this.InitiateConstraints();
+        }
+        else{
+            this.userIdInvalid = true;
         }
     }
 }
