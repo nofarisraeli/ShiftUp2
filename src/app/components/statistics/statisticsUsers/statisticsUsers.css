@@ -1,0 +1,12 @@
+table {
+    position: absolute;
+    text-align: center;
+    right: calc(50% - 150px);
+    width: 300px;
+    top: 50px;
+}
+
+.title {
+    text-decoration: underline;
+    font-size: 14px;
+}

@@ -30,6 +30,9 @@ import { StatisticsAgesComponent } from '../components/statistics/statisticsAges
 import { StatisticsSalariesComponent } from '../components/statistics/statisticsSalaries/statisticsSalaries.component';
 import { StatisticsShiftsComponent } from '../components/statistics/statisicsShifts/statisticsShifts.component';
 import { StatisticsConstraintsComponent } from '../components/statistics/statisticsConstraints/statisticsConstraints.component';
+import { StatisticsUsersComponent } from '../components/statistics/statisticsUsers/statisticsUsers.component';
+
+import { LoginStatPipe } from '../pipes/LoginStatPipe.pipe';
 
 // Services
 import { EventService } from '../services/event/event.service'
@@ -72,7 +75,9 @@ import { Routing } from '../routes/app.routing'
         StatisticsAgesComponent,
         StatisticsSalariesComponent,
         StatisticsShiftsComponent,
-        StatisticsConstraintsComponent
+        StatisticsConstraintsComponent,
+        StatisticsUsersComponent,
+        LoginStatPipe
     ],
     providers: [
         GlobalService,
