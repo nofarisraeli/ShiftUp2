@@ -1,7 +1,7 @@
 const tokenHandler = require('./handlers/tokenHandler');
 const businessesBL = require('./BL/businessesBL');
 
-module.exports = (io) => {
+module.exports = (io, hll) => {
     io.on('connection', (socket) => {
 
         socket.on('login', () => {
@@ -10,6 +10,9 @@ module.exports = (io) => {
 
             // Join user to socket room by its object id.
             user && socket.join(user.id);
+
+            // Add user id hash to the hll.
+            hll.insert(user.id);
         });
 
         socket.on('disconnect', () => {
