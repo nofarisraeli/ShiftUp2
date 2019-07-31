@@ -114,14 +114,71 @@ label {
     align-items: center;
 }
 
-.delete-all-btn {
-    position: absolute;
-    left: 0;
+.action-btn {
+    margin: 0 5px;
 }
 
-.advance-filter-btn {
-    position: absolute;
+.card {
+    position: fixed;
+    width: 500px;
+    height: 600px;
+    background-color: #f3f3f3;
+    box-shadow: 4px 4px 30px 5px #5d5d5d;
+    border-radius: 3px;
+    top: 0;
     right: 0;
+    left: 0;
+    bottom: 0;
+    z-index: 1001;
+    margin: auto;
+    max-width: 90%;
+    max-height: 70%;
+    min-height: 250px;
+}
+
+.card-title {
+    font-size: 18px;
+    text-align: center;
+    margin: 10px 0px;
+    user-select: none;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    width: 100%;
+    position: relative;
+    font-weight: bold;
+    text-decoration: underline;
+    height: 30px;
+}
+
+.card-body {
+    height: calc(100% - 50px);
+    width: 100%;
+    position: absolute;
+    bottom: 0;
+    overflow: auto;
+}
+
+.close-icon {
+    position: absolute;
+    left: 15px;
+    cursor: pointer;
+}
+
+.overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    z-index: 1000;
+    background-color: rgba(0,0,0,.3);
+}
+
+.salary-stats-table, th, td {
+    text-align: center;
+    color: #5a5a5a !important;
 }
 
 @keyframes verticalPopup {

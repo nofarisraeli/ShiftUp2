@@ -3,19 +3,28 @@
         עובדי העסק - {{business.name}}
     </h5>
     <div class="buttonsContainer" *ngIf="manager && allWorkers">
-        <button class="btn btn-dark btn-raised" style="background-color:#ef7975;"  (click)="showRequests()" *ngIf="manager.requests && manager.requests.length > 0">
+        <button class="btn btn-dark btn-raised" style="background-color:#ef7975;" (click)="showRequests()"
+            *ngIf="manager.requests && manager.requests.length > 0">
             <span *ngIf="manager.requests.length == 1; then single else multi"></span>
             <ng-template #single>בקשת הצטרפות ממתינה</ng-template>
             <ng-template #multi>({{manager.requests.length}}) בקשות הצטרפות ממתינות</ng-template>
             <i class="fas fa-bell btn-icon"></i>
         </button>
-        <button class="btn btn-primary btn-raised advance-filter-btn" [ngClass]="{'btn-primary': !showAdvancedFilter, 'btn-secondary': showAdvancedFilter}"
+        <button class="btn btn-primary btn-raised action-btn"
+            [ngClass]="{'btn-primary': !showAdvancedFilter, 'btn-secondary': showAdvancedFilter}"
             *ngIf="allWorkers.length > 0" (click)="onShowAdvancedFilterClick()">
             סינון מתקדם
             <i *ngIf="!showAdvancedFilter" class="fas fa-filter btn-icon"></i>
             <i *ngIf="showAdvancedFilter" class="fas fa-times btn-icon"></i>
         </button>
-        <button class="btn btn-secondary btn-raised delete-all-btn" (click)="deleteAllWorkersHandler()" *ngIf="allWorkers.length > 0">
+        <button class="btn btn-primary btn-raised action-btn"
+            [ngClass]="{'btn-primary': !showAdvancedFilter, 'btn-secondary': showAdvancedFilter}"
+            *ngIf="allWorkers.length > 0" (click)="showSalaryStats()">
+            חתך שכר
+            <i class="fas fa-table btn-icon"></i>
+        </button>
+        <button class="btn btn-secondary btn-raised action-btn" (click)="deleteAllWorkersHandler()"
+            *ngIf="allWorkers.length > 0">
             מחיקת כל העובדים
             <i class="fas fa-trash btn-icon"></i>
         </button>
@@ -27,24 +36,27 @@
             <i class="fas fa-search"></i>
         </div>
     </div>
-    <form *ngIf="showAdvancedFilter" [formGroup]="filterForm" (ngSubmit)="onFilterSubmit()" (onReset)="onFilterReset()" class="advancedFilterForm">
+    <form *ngIf="showAdvancedFilter" [formGroup]="filterForm" (ngSubmit)="onFilterSubmit()" (onReset)="onFilterReset()"
+        class="advancedFilterForm">
         <div class="filterContainer">
             <div class="ageFilter form-group">
                 <label>גיל</label>
                 <div class="input-group">
-                    <input type="number" class="form-control" placeholder="גיל מינימלי"
-                        formControlName="minAge" name="minAge" min="0" (keydown.esc)="onFieldReset($event.target.name)" />
+                    <input type="number" class="form-control" placeholder="גיל מינימלי" formControlName="minAge"
+                        name="minAge" min="0" (keydown.esc)="onFieldReset($event.target.name)" />
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-raised btn-sm fieldResetButton" (click)="onFieldReset('minAge')">
+                        <button type="button" class="btn btn-raised btn-sm fieldResetButton"
+                            (click)="onFieldReset('minAge')">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
                 <div class="input-group">
-                    <input type="number" class="form-control" placeholder="גיל מקסימלי"
-                        formControlName="maxAge" name="maxAge" min="0" (keydown.esc)="onFieldReset($event.target.name)" />
+                    <input type="number" class="form-control" placeholder="גיל מקסימלי" formControlName="maxAge"
+                        name="maxAge" min="0" (keydown.esc)="onFieldReset($event.target.name)" />
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-raised btn-sm fieldResetButton" (click)="onFieldReset('maxAge')">
+                        <button type="button" class="btn btn-raised btn-sm fieldResetButton"
+                            (click)="onFieldReset('maxAge')">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -53,19 +65,21 @@
             <div class="salaryFilter form-group">
                 <label>שכר שעתי (20 - 100)</label>
                 <div class="input-group">
-                    <input type="number" class="form-control" placeholder="שכר שעתי מינימלי"
-                        formControlName="minSalary" name="minSalary" min="20" max="100" (keydown.esc)="onFieldReset($event.target.name)" />
+                    <input type="number" class="form-control" placeholder="שכר שעתי מינימלי" formControlName="minSalary"
+                        name="minSalary" min="20" max="100" (keydown.esc)="onFieldReset($event.target.name)" />
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-raised btn-sm fieldResetButton" (click)="onFieldReset('minSalary')">
+                        <button type="button" class="btn btn-raised btn-sm fieldResetButton"
+                            (click)="onFieldReset('minSalary')">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
                 </div>
                 <div class="input-group">
-                    <input type="number" class="form-control" placeholder="שכר שעתי מקסימלי"
-                        formControlName="maxSalary" name="maxSalary" min="20" max="100" (keydown.esc)="onFieldReset($event.target.name)" />
+                    <input type="number" class="form-control" placeholder="שכר שעתי מקסימלי" formControlName="maxSalary"
+                        name="maxSalary" min="20" max="100" (keydown.esc)="onFieldReset($event.target.name)" />
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-raised btn-sm fieldResetButton" (click)="onFieldReset('maxSalary')">
+                        <button type="button" class="btn btn-raised btn-sm fieldResetButton"
+                            (click)="onFieldReset('maxSalary')">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -79,7 +93,8 @@
                         <option *ngFor="let job of allJobs" [ngValue]="job">{{ job }}</option>
                     </select>
                     <div class="input-group-append">
-                        <button type="button" class="btn btn-raised btn-sm fieldResetButton" (click)="onFieldReset('job')">
+                        <button type="button" class="btn btn-raised btn-sm fieldResetButton"
+                            (click)="onFieldReset('job')">
                             <i class="fas fa-times"></i>
                         </button>
                     </div>
@@ -101,14 +116,14 @@
     <div *ngIf="allWorkers && filteredWorkers">
         <div class="workersContainer">
             <div id="cards-container">
-                <workerCard class="workerCard" *ngFor="let worker of filteredWorkers"
-                    [worker]=worker (onDelete)="deleteWorkerHandler(worker)"></workerCard>
+                <workerCard class="workerCard" *ngFor="let worker of filteredWorkers" [worker]=worker
+                    (onDelete)="deleteWorkerHandler(worker)"></workerCard>
             </div>
         </div>
     </div>
     <div *ngIf="!allWorkers || !filteredWorkers">
         <div class="loader"></div>
-    </div >
+    </div>
     <h3 *ngIf="allWorkers && filteredWorkers && allWorkers.length > 0 && filteredWorkers.length == 0" class="noWorkers">
         לא נמצאו תוצאות לחיפוש
     </h3>
@@ -116,4 +131,29 @@
         אין עובדים לעסק
         <span *ngIf="manager && manager.requests && manager.requests.length > 0">, יש לאשר בקשות הצטרפות</span>
     </h3>
+    <div *ngIf="showStats">
+        <div class="overlay"></div>
+        <div class="card">
+            <div class="card-title">
+                חתך שכר לעובדים בעסק
+                <i class="material-icons close-icon" (click)="showStats = false">close</i>
+            </div>
+            <div class="card-body">
+                <table class="table salary-stats-table">
+                    <thead>
+                        <tr>
+                            <th scope="col">שכר</th>
+                            <th scope="col">כמות עובדים</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let stat of salaryStats">
+                            <td>{{stat.salary}}</td>
+                            <td>{{stat.amount}}</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
 </div>
