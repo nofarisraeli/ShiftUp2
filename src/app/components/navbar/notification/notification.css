@@ -1,0 +1,35 @@
+.notificationsIndicator > span {
+    background-color: #ef7975;
+}
+
+.notificationsIndicator {
+    margin-right: 15px;
+}
+
+.notificationsIndicator > .dropdown-toggle {
+    height: 30px;
+    width: 30px;
+    min-width: unset !important;
+    margin-bottom: 0;
+}
+
+.notificationsIndicator :hover {
+    color: #ef7975;
+}
+
+.notificationsIndicator > button > i {
+    color: #fff;
+    font-size: 20px;
+}
+
+.dropdown-item {
+    padding: 0 10px;
+    min-height: 0;
+    height: 25px;
+    font-size: 14px;
+    margin: 1px 0px;
+}
+
+.notificationsDropdown {
+    top: 5px !important;
+}

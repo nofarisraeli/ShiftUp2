@@ -31,11 +31,12 @@ let self = module.exports = {
         return self.GetBusinessDetails({ "_id": DAL.GetObjectId(businessId) });
     },
 
-    AddWorkerToBusiness(businessId, userId, salary) {
+    AddWorkerToBusiness(businessId, userId, job, salary) {
         return new Promise((resolve, reject) => {
             DAL.UpdateOne(usersCollectionName, { userId: userId }, {
                 $set: {
                     businessId: DAL.GetObjectId(businessId),
+                    job: job,
                     salary: salary
                 },
                 $unset: {
@@ -259,6 +260,64 @@ let self = module.exports = {
                     };
                 }));
             }).catch(result => reject);
+        });
+    },
+
+    GetFilteredWorkers(businessId, filter) {
+        return new Promise((resolve, reject) => {
+            let filterConditions = {
+                businessId: DAL.GetObjectId(businessId),
+                isManager: false
+            };
+
+            // Age
+            const now = new Date();
+            const year = now.getFullYear();
+            const month = now.getMonth();
+            const dayOfMonth = now.getDate() + 1;
+            
+            if (filter.minAge && filter.maxAge) {
+                filterConditions.birthDate = {
+                    $gt: new Date(year - filter.maxAge - 1, month, dayOfMonth),
+                    $lte: new Date(year - filter.minAge, month, dayOfMonth)
+                }
+            } else if (filter.minAge && !filter.maxAge) {
+                filterConditions.birthDate = {
+                    $lte: new Date(year - filter.minAge, month, dayOfMonth)
+                }
+            } else if (!filter.minAge && filter.maxAge) {
+                filterConditions.birthDate = {
+                    $gt: new Date(year - filter.maxAge - 1, month, dayOfMonth)
+                }
+            }
+            
+            // Salary
+            if (filter.minSalary) {
+                filterConditions.salary = {
+                    $gte: filter.minSalary
+                }
+            }
+            if (filter.maxSalary) {
+                if (!filterConditions.salary) {
+                    filterConditions.salary = {
+                        $lte: filter.maxSalary
+                    }
+                } else {
+                    filterConditions.salary.$lte = filter.maxSalary;
+                }
+            }
+            
+            // Job
+            if (filter.job) {
+                filterConditions.job = {
+                    $eq: filter.job
+                }
+            }
+
+            // DB Query
+            DAL.Find(usersCollectionName, filterConditions).then(filteredWorkers => {
+                resolve(filteredWorkers.map(worker => worker._id));
+            }).catch(err => reject)
         });
     }
 };

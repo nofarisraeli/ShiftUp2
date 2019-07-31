@@ -105,6 +105,7 @@ let self = module.exports = {
                         "fullName": worker.firstName + " " + worker.lastName,
                         "birthDate": worker.birthDate,
                         "userId": worker.userId,
+                        "job": worker.job,
                         "salary": worker.salary,
                         "isManager": worker.isManager,
                         "requests": worker.requests
@@ -182,8 +183,40 @@ let self = module.exports = {
             DAL.FindOne(businessesCollectionName, businessFilter, businessField).then(business => {
                 resolve(business.shifts.map(shift => {
                     return shift.name;
-                }))
-            }).catch(reject)
+                }));
+            }).catch(reject);
+        });
+    },
+
+    GetBusinessManagerId(businessId) {
+        return new Promise((resolve, reject) => {
+            let businessFilter = {
+                "_id": DAL.GetObjectId(businessId)
+            }
+
+            let businessField = {
+                "manager": 1
+            }
+
+            DAL.FindOneSpecific(businessesCollectionName, businessFilter, businessField).then(business => {
+                resolve(business.manager.toString());
+            }).catch(reject);
+        });
+    },
+
+    GetJobsOfBusiness(businessId) {
+        return new Promise((resolve, reject) => {
+            let businessFilter = {
+                "businessId": DAL.GetObjectId(businessId)
+            };
+            let jobProjection = {
+                "job": 1
+            };
+
+            DAL.FindSpecific(usersCollectionName, businessFilter, jobProjection).then(workers => {
+                const jobs = new Set(workers.filter(worker => worker.job).map(worker => worker.job));
+                resolve(jobs);
+            }).catch(() => reject);
         });
     }
 

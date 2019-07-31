@@ -13,8 +13,7 @@
 }
 
 .requestsTable {
-    margin: 10px auto;
-    width: 60%;
+    margin: 10px auto;    
 }
 
 th, td, .formInput {
@@ -46,11 +45,6 @@ th, td, .formInput {
     color: #fff;
     font-size: 16px;
 }
-
-/* .actions > i {
-    font-size: 24px;
-    cursor: pointer;
-} */
 
 .loader {
     margin: auto;

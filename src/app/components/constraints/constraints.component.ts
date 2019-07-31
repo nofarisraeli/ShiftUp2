@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { GlobalService } from '../../services/global/global.service';
 import { ConstraintsService } from '../../services/constraints/constraints.service';
 import { STATUS_CODE } from '../../enums/enums';
 import { STATUS_CODE_NUMBER } from '../../enums/enums';
 import { UsersService } from "../../services/users/users.service";
-import { ActivatedRoute, Router } from "@angular/router";
 import { EventService } from '../../services/event/event.service';
 import { FormBuilder } from '@angular/forms';
 
@@ -17,7 +17,6 @@ declare let Swal: any;
 })
 
 export class ConstraintsComponent implements OnInit {
-    sourceConstraints: Array<any> = [];
     constraints: Array<any>;
     searchWord: string;
     startDateFilter: Date;
@@ -37,7 +36,9 @@ export class ConstraintsComponent implements OnInit {
     userSortCol: string;
     userSortDirection: number;
 
+        
     constructor(private constraintsService: ConstraintsService,
+        private globalService: GlobalService,
         private usersService: UsersService,
         private EventService: EventService,
         private route: ActivatedRoute,
@@ -54,6 +55,12 @@ export class ConstraintsComponent implements OnInit {
         this.InitiateFilterForm();
         this.InitiateConstraints();
         this.InitiateConstraintsReasons();
+        
+        let self = this;
+        self.globalService.socket.on("UpdateConstraintServer", () => {
+            self.InitiateConstraints();
+        });
+
     }
 
     InitiateFilterForm(){
@@ -85,6 +92,7 @@ export class ConstraintsComponent implements OnInit {
             if (isApprove) {
                 conObj.status[0].statusName = STATUS_CODE.CONFIRMED;
                 conObj.status[0].statusId = isApprove.statusId;
+                this.globalService.socket.emit("UpdateConstraintStatusClient", conObj.userObjId);
             } else {
                 Swal.fire({
                     type: 'error',
@@ -100,6 +108,7 @@ export class ConstraintsComponent implements OnInit {
             if (isCanceled) {
                 conObj.status[0].statusName = STATUS_CODE.REFUSED;
                 conObj.status[0].statusId = isCanceled.statusId;
+                this.globalService.socket.emit("UpdateConstraintStatusClient", conObj.userObjId);
             } else {
                 Swal.fire({
                     type: 'error',
@@ -126,7 +135,7 @@ export class ConstraintsComponent implements OnInit {
 
     filterItem() {
         if (this.searchWord || this.startDateFilter || this.endDateFilter) {
-            this.constraints = this.sourceConstraints.filter(item => {
+            this.constraints = this.constraints.filter(item => {
                 let bool = true;
                 if (this.searchWord) {
                     bool = (this.searchWord && (item.user[0].userId.includes(this.searchWord)) ||
@@ -142,8 +151,6 @@ export class ConstraintsComponent implements OnInit {
                 }
                 return bool;
             });
-        } else {
-            this.constraints = this.sourceConstraints;
         }
     }
 
