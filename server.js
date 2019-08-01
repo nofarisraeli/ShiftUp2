@@ -35,6 +35,8 @@ app.use('/api/schedule/', middlewares.CheckManager, require('./modules/routes/sc
 
 require('./modules/socket')(io);
 
+require('./modules/scraping')();
+
 // Allowed extensions list.
 const allowedExt = [
     '.js',
