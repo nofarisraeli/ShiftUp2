@@ -188,6 +188,19 @@ module.exports = {
                 collection.find(filter).count().then(resolve).catch(reject);
             }).catch(reject);
         });
+    },
+
+    MapReduce(collectionName, map, reduce, data) {
+        return new Promise((resolve, reject) => {
+            GetDB().then(db => {
+                let collection = db.collection(collectionName);
+                collection.mapReduce(map, reduce, data).then(result => {
+                    resolve(result);
+                }).catch(err => {
+                    reject(err);
+                });
+            }).catch(reject);
+        });
     }
 
 };

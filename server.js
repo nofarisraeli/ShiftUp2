@@ -8,6 +8,9 @@ const config = require('./config');
 const tokenHandler = require('./modules/handlers/tokenHandler');
 const middlewares = require('./modules/middlewares');
 
+// Construct an HLL data structure.
+const hll = require('hll')();
+
 // app define settings.
 app.set('trust proxy', 1);
 app.use(bodyParser.json({ limit: '10mb' }));
@@ -25,7 +28,7 @@ app.use('/api', (req, res, next) => {
 
 // Routes requires
 app.use('/api/shifts/', require('./modules/routes/shifts'));
-app.use('/api/users/', require('./modules/routes/users'));
+app.use('/api/users/', require('./modules/routes/users')(hll));
 app.use('/api/login/', require('./modules/routes/login'));
 app.use('/api/registration/', require('./modules/routes/registration'));
 app.use('/api/businesses/', require('./modules/routes/businesses'));
@@ -33,7 +36,7 @@ app.use('/api/workers/', require('./modules/routes/workers'));
 app.use('/api/constraints/', require('./modules/routes/constraints'));
 app.use('/api/schedule/', middlewares.CheckManager, require('./modules/routes/schedule'));
 
-require('./modules/socket')(io);
+require('./modules/socket')(io, hll);
 
 require('./modules/scraping')();
 

@@ -79,4 +79,11 @@ export class WorkersService extends BasicService {
             .then((result: any) => result)
             .catch((err: any) => null);
     }
+
+    ReduceWorkersSalary() {
+        return super.get(this.prefix + '/reduceWorkersSalary')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
 }
