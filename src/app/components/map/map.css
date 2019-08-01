@@ -12,8 +12,8 @@
     font-size: 1em;
 }
 
-#bingMap {
+#workersBingMap {
     margin: auto;
-    width: 600px;
-    height: 400px;
+    width: 800px;
+    height: 500px;
 }
