@@ -57,7 +57,9 @@
 .btn-ClearfilterForm{
     cursor: pointer !important;
     font-size: 20px;
-    margin-top: -35px;
+    position: absolute;
+    top: 5px;
+    right: -45px;
 }
 
 .formInput {
@@ -99,6 +101,20 @@
 .filterForm {
     animation-name: verticalPopup;
     animation-duration: 300ms;
+    position: relative;
+}
+
+select {
+    width: 100px !important;
+}
+
+.advFilterForm {
+    margin-right: 40px;
+}
+
+.advFilterBtn {
+    position: absolute;
+    left: -50px;
 }
 
 @keyframes verticalPopup {
