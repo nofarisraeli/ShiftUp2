@@ -1,6 +1,7 @@
 const DAL = require('../DAL');
 const config = require('../../config');
 const enums = require('../enums');
+const usersBL = require('../BL/usersBL');
 
 const usersCollectionName = config.db.collections.users;
 const constraintsCollectionName = config.db.collections.constraints;
@@ -8,8 +9,9 @@ const constraintsReasonsCollectionName = config.db.collections.constraintsReason
 const statusTypeCollectionName = config.db.collections.statusType;
 
 let self = module.exports = {
-    getAllConstraints(user, sortCol, sortDirection) {
+    getAllConstraints(user, sortCol, sortDirection, filter = null) {
         let findQuery = { $match: null };
+        let usersJoinQuery = {$unwind : null }
 
         if (user.isManager) {
             findQuery["$match"] = { 'businessId': DAL.GetObjectId(user.businessId) };
@@ -18,16 +20,25 @@ let self = module.exports = {
             findQuery["$match"] = { 'userObjId': DAL.GetObjectId(user.id) };
         }
 
-        let usersJoinQuery = {
+        if(filter) {
+            if(filter.statusId) {
+                findQuery["$match"].statusId = parseInt(filter.statusId);
+            }
+            if(filter.description) {
+                findQuery["$match"].description = filter.description
+            }
+        }
+
+        usersJoinQuery = {
             $lookup:
             {
                 from: usersCollectionName,
                 localField: 'userObjId',
                 foreignField: '_id',
-                as: 'user',
+                as: 'user'
             }
-        };
-
+        }
+    
         let statusTypeJoinQuery = {
             $lookup: {
                 from: statusTypeCollectionName,
@@ -54,7 +65,13 @@ let self = module.exports = {
             }
         }
 
-        let aggregateQuery = [findQuery, usersJoinQuery, statusTypeJoinQuery];
+        let aggregateQuery = [findQuery, usersJoinQuery ,statusTypeJoinQuery];
+        
+        if(filter && filter.userId){
+            let matchUser = {$match: {"user.userId": filter.userId}};
+            aggregateQuery.push(matchUser);
+        }
+  
         sortObj && (aggregateQuery.push(sortObj));
 
         return DAL.Aggregate(constraintsCollectionName, aggregateQuery);

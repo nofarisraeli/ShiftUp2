@@ -4,7 +4,7 @@ const middlewares = require('../middlewares');
 const router = express.Router();
 
 router.post("/getAllConstraints", (req, res) => {
-    constraintsBL.getAllConstraints(req.user, req.body.sortCol, req.body.sortDirection).then(data => {
+    constraintsBL.getAllConstraints(req.user, req.body.sortCol, req.body.sortDirection, req.body.filterData).then(data => {
         res.send(data);
     }).catch(err => {
         res.status(500).end();
