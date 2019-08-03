@@ -56,8 +56,24 @@ export class ScrapingComponent {
     }
 
     findKeyWords() {
+        let first = this.keyWords.first;
+        let second = this.keyWords.second;
+        let third = this.keyWords.third;
+
+        if (second.indexOf(first) != -1 || third.indexOf(first) != -1) {
+            first = "";
+        }
+
+        if (first.indexOf(second) != -1 || third.indexOf(second) != -1) {
+            second = "";
+        }
+
+        if (first.indexOf(second) != -1 || second.indexOf(third) != -1) {
+            third = "";
+        }
+
         this.scrapingService.FindKeyWords($("#state").val(),
-            [this.keyWords.first, this.keyWords.second, this.keyWords.third]).then(result => {
+            [first, second, third]).then(result => {
                 $("#result").html(this.buildResult(result));
             });
     }
@@ -66,12 +82,15 @@ export class ScrapingComponent {
         let data = result.data.countryData
         let search = result.searchResult;
 
-        search.forEach((elm, index) => {
-            let position = elm[0] + index * 7;
-            let wordLength = elm[1][0].length;
+        let firstMark = "<b style='color: red;'>";
+        let secondMark = "</b>";
 
-            data = this.spliceString(data, position - 1, 0, "<b>");
-            data = this.spliceString(data, position + wordLength + 2, 0, "</b>");
+        search.forEach((elm, index) => {
+            let endPosition = elm[0] + (index * (firstMark.length + secondMark.length));
+            let startPosition = endPosition - elm[1][0].length + 1;
+
+            data = this.spliceString(data, startPosition, 0, firstMark);
+            data = this.spliceString(data, endPosition + firstMark.length + 1, 0, secondMark);
         });
 
         return data;
