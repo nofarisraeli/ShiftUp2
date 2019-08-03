@@ -71,7 +71,7 @@ export class ConstraintsComponent implements OnInit {
         this.constraintsService.ApproveConstraint(conObj._id).then((isApprove: any) => {
             if (isApprove) {
                 conObj.status[0].statusName = STATUS_CODE.CONFIRMED;
-                conObj.statusId = conObj.status[0].statusId = isApprove.statusId;                                
+                conObj.statusId = conObj.status[0].statusId = isApprove.statusId;
                 this.globalService.socket.emit("UpdateConstraintStatusClient", conObj.userObjId);
                 this.CalcConstraintRequestAmount();
             } else {
@@ -79,7 +79,7 @@ export class ConstraintsComponent implements OnInit {
                     type: 'error',
                     title: 'שגיאה באישור אילוץ',
                     text: 'אופס... משהו השתבש'
-                })
+                });
             }
         });
     }
@@ -96,7 +96,7 @@ export class ConstraintsComponent implements OnInit {
                     type: 'error',
                     title: 'שגיאה בדחיית אילוץ',
                     text: 'אופס... משהו השתבש'
-                })
+                });
             }
         });
     }

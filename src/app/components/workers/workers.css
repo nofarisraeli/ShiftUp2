@@ -181,6 +181,10 @@ label {
     color: #5a5a5a !important;
 }
 
+.filterContainer label {
+    text-decoration: underline;
+}
+
 @keyframes verticalPopup {
     0% { height: 0px; opacity: 0; }
     90% { height: 100px; opacity: 0; }

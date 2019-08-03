@@ -89,7 +89,7 @@
                 <label>תפקיד</label>
                 <div class="input-group">
                     <select formControlName="job" class="form-control" id="job">
-                        <option value="בחר תפקיד" selected>בחר תפקיד</option>
+                        <option value="בחר תפקיד" [selected]="true">בחר תפקיד</option>
                         <option *ngFor="let job of allJobs" [ngValue]="job">{{ job }}</option>
                     </select>
                     <div class="input-group-append">
