@@ -14,7 +14,7 @@ module.exports = () => {
         rp(url).then(function (html) {
             let data = []
 
-            for (let i = 87; i < 187; i++) {
+            for (let i = 87; i < 200; i++) {
                 let countryName = $('table tr:nth-child(' + i + ') td:nth-child(1) a', html).html();
                 let countryData = $('table tr:nth-child(' + i + ') td:nth-child(2)', html).text();
 
