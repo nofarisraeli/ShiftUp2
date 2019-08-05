@@ -261,5 +261,29 @@ let self = module.exports = {
                 }));
             }).catch(result => reject);
         });
+    },
+
+    GetWorkersMapCoordinates(businessId) {
+        return new Promise((resolve, reject) => {
+            const usersFilter = {
+                $and: [
+                    { "businessId": DAL.GetObjectId(businessId) },
+                    { "isManager": false },
+                    { "latitude": { $exists: true } },
+                    { "longitude": { $exists: true } }
+                ]
+            };
+
+            const usersFields = {
+                "firstName": 1,
+                "lastName": 1,
+                "latitude": 1,
+                "longitude": 1
+            };
+
+            DAL.FindSpecific(usersCollectionName, usersFilter, usersFields)
+                .then(users => resolve(users))
+                .catch(result => reject);
+        });
     }
 };

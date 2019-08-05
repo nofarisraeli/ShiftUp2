@@ -120,4 +120,12 @@ router.get("/getWorkersGroupByAgesDecades", (req, res) => {
     });
 });
 
+router.get("/getWorkersMapCoordinates", (req, res) => {
+    workersBL.GetWorkersMapCoordinates(req.user.businessId).then(result => {
+        res.send(result);
+    }).catch(err => {
+        res.sendStatus(500);
+    })
+})
+
 module.exports = router;

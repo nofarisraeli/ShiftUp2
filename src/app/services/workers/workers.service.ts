@@ -72,4 +72,11 @@ export class WorkersService extends BasicService {
             .then((result: any) => result)
             .catch((err: any) => null);
     }
+
+    GetWorkersMapCoordinates() {
+        return super.get(this.prefix + '/getWorkersMapCoordinates')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
 }
