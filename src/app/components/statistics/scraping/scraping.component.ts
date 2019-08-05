@@ -68,7 +68,7 @@ export class ScrapingComponent {
             second = "";
         }
 
-        if (first.indexOf(second) != -1 || second.indexOf(third) != -1) {
+        if (first.indexOf(third) != -1 || second.indexOf(third) != -1) {
             third = "";
         }
 
