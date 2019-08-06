@@ -74,7 +74,9 @@ export class WorkersService extends BasicService {
     }
 
     GetWorkersMapCoordinates() {
-        return super.get(this.prefix + '/getWorkersMapCoordinates')
+        return super.get(this.prefix + '/getWorkersMapCoordinates').toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
     }
 
     GetFilteredWorkers(filter: any) {
