@@ -10,6 +10,7 @@ import { MainComponent } from '../components/main/main.component';
 import { LoginComponent } from '../components/login/login.component';
 import { HomeComponent } from '../components/home/home.component';
 import { NavbarComponent } from '../components/navbar/navbar.component';
+import { NotificationComponent } from '../components/navbar/notification/notification.component';
 import { ConstraintsComponent } from '../components/constraints/constraints.component';
 import { ConstraintsForWorkerComponent } from '../components/constraintsForWorker/constraintsForWorker.component';
 import { WorkersComponent } from '../components/workers/workers.component';
@@ -30,6 +31,10 @@ import { StatisticsSalariesComponent } from '../components/statistics/statistics
 import { StatisticsShiftsComponent } from '../components/statistics/statisicsShifts/statisticsShifts.component';
 import { StatisticsConstraintsComponent } from '../components/statistics/statisticsConstraints/statisticsConstraints.component';
 import { MapComponent } from '../components/map/map.component';
+import { StatisticsUsersComponent } from '../components/statistics/statisticsUsers/statisticsUsers.component';
+import { ScrapingComponent } from '../components/statistics/scraping/scraping.component';
+
+import { LoginStatPipe } from '../pipes/LoginStatPipe.pipe';
 
 // Services
 import { EventService } from '../services/event/event.service'
@@ -55,6 +60,7 @@ import { Routing } from '../routes/app.routing'
         ConstraintsComponent,
         ConstraintsForWorkerComponent,
         NavbarComponent,
+        NotificationComponent,
         WorkersComponent,
         CalendarComponent,
         ShiftCardComponent,
@@ -72,7 +78,10 @@ import { Routing } from '../routes/app.routing'
         StatisticsSalariesComponent,
         StatisticsShiftsComponent,
         StatisticsConstraintsComponent,
-        MapComponent
+        MapComponent,
+        StatisticsUsersComponent,
+        ScrapingComponent,
+        LoginStatPipe
     ],
     providers: [
         GlobalService,

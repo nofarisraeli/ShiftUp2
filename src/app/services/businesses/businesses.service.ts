@@ -18,15 +18,17 @@ export class BusinessesService extends BasicService {
             .catch((err: any) => null);
     }
 
-
     AddBusiness(business: Business) {
         return super.post(this.prefix + '/addBusiness', business)
             .toPromise()
-            .then((result: any) => {
-                return result;
-            })
-            .catch((e: any) => {
-                return null;
-            });
+            .then((result: any) => result)
+            .catch((e: any) => null);
+    }
+
+    GetJobsOfBusiness() {
+        return super.get(this.prefix + '/getJobsOfbusiness')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((e: any) => null);
     }
 }

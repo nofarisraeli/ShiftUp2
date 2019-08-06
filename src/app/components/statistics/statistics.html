@@ -16,6 +16,10 @@
                         aria-controls="v-pills-shifts" aria-selected="false">משמרות</a>
                     <a class="nav-link" id="v-pills-constraints-tab" data-toggle="pill" href="#v-pills-constraints"
                         role="tab" aria-controls="v-pills-constraints" aria-selected="false">אילוצים</a>
+                    <a class="nav-link" id="v-pills-users-tab" data-toggle="pill" href="#v-pills-users" role="tab"
+                        aria-controls="v-pills-users" aria-selected="false">משתמשים</a>
+                    <a class="nav-link" id="v-pills-scraping-tab" data-toggle="pill" href="#v-pills-scraping" role="tab"
+                        aria-controls="v-pills-scraping" aria-selected="false">שכר מינימום</a>
                 </div>
             </div>
             <div class="statisticsContent" *ngIf="workers">
@@ -33,6 +37,13 @@
                     <div class="tab-pane fade" id="v-pills-constraints" role="tabpanel"
                         aria-labelledby="v-pills-constraints-tab">
                         <statisticsConstraints [workers]=workers></statisticsConstraints>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-users" role="tabpanel" aria-labelledby="v-pills-users-tab">
+                        <statisticsUsers></statisticsUsers>
+                    </div>
+                    <div class="tab-pane fade" id="v-pills-scraping" role="tabpanel"
+                        aria-labelledby="v-pills-scraping-tab">
+                        <scraping></scraping>
                     </div>
                 </div>
             </div>

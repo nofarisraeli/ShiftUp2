@@ -6,8 +6,8 @@ import { BasicService } from '../basic/basic.service';
 export class ConstraintsService extends BasicService {
     prefix = "/api/constraints";
 
-    getAllConstraints(sortCol: string, sortDirection: number) {
-        let data = { sortCol, sortDirection };
+    getAllConstraints(sortCol: string, sortDirection: number, filterData:any = null) {
+        let data = { sortCol, sortDirection, filterData};
 
         return super.post(this.prefix + "/getAllConstraints", data)
             .toPromise()

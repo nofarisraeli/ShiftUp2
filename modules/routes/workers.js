@@ -9,7 +9,7 @@ router.get("/getBusinessByCode", (req, res) => {
         res.send(result);
     }).catch(err => {
         res.sendStatus(500);
-    })
+    });
 });
 
 router.post("/sendWorkerRequest", (req, res) => {
@@ -19,7 +19,7 @@ router.post("/sendWorkerRequest", (req, res) => {
         res.send(true);
     }).catch(err => {
         res.sendStatus(500);
-    })
+    });
 });
 
 router.get("/getWaitBusinessDetails", (req, res) => {
@@ -109,7 +109,7 @@ router.get("/getWorkersAverageAge", (req, res) => {
         res.send(result);
     }).catch(err => {
         res.sendStatus(500);
-    })
+    });
 });
 
 router.get("/getWorkersGroupByAgesDecades", (req, res) => {
@@ -127,5 +127,20 @@ router.get("/getWorkersMapCoordinates", (req, res) => {
         res.sendStatus(500);
     })
 })
+router.post("/getFilteredWorkers", (req, res) => {
+    workersBL.GetFilteredWorkers(req.user.businessId, req.body).then(result => {
+        res.send(result);
+    }).catch(err => {
+        res.sendStatus(500);
+    });
+});
+
+router.get("/reduceWorkersSalary", middlewares.CheckManager, (req, res) => {
+    workersBL.ReduceWorkersSalary(req.user.businessId).then(data => {
+        res.send(data);
+    }).catch(err => {
+        res.status(500).end();
+    });
+});
 
 module.exports = router;

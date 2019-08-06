@@ -1,0 +1,14 @@
+<div *ngIf="stats" id="statisticsUsers">
+    <table>
+        <tr>
+            <td>
+                <h1 class="title">סה"כ משתמשים שונים שהתחברו</h1>
+                <div>{{stats | loginStat: 'amount'}}</div>
+            </td>
+            <td>
+                <h1 class="title">אחוז לשגיאה</h1>
+                <div>{{stats | loginStat: 'error'}}</div>
+            </td>
+        </tr>
+    </table>
+</div>

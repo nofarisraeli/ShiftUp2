@@ -39,4 +39,11 @@ export class UsersService extends BasicService {
             .then((result: any) => result)
             .catch((err: any) => null);
     }
+
+    GetDifferentUsersLoginsAmount() {
+        return super.get(this.prefix + '/getDifferentUsersLoginsAmount')
+            .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
 }
