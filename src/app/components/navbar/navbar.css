@@ -14,8 +14,6 @@
 .navbarPages {
     width: 100%;
     display: flex;
-    overflow-x: auto;
-    overflow-y: hidden;
     height: 50px;
 }
 

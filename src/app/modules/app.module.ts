@@ -31,6 +31,7 @@ import { StatisticsSalariesComponent } from '../components/statistics/statistics
 import { StatisticsShiftsComponent } from '../components/statistics/statisicsShifts/statisticsShifts.component';
 import { StatisticsConstraintsComponent } from '../components/statistics/statisticsConstraints/statisticsConstraints.component';
 import { StatisticsUsersComponent } from '../components/statistics/statisticsUsers/statisticsUsers.component';
+import { ScrapingComponent } from '../components/statistics/scraping/scraping.component';
 
 import { LoginStatPipe } from '../pipes/LoginStatPipe.pipe';
 
@@ -77,6 +78,7 @@ import { Routing } from '../routes/app.routing'
         StatisticsShiftsComponent,
         StatisticsConstraintsComponent,
         StatisticsUsersComponent,
+        ScrapingComponent,
         LoginStatPipe
     ],
     providers: [

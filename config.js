@@ -19,7 +19,8 @@ module.exports = {
             shifts: "Shifts",
             constraints: "Constraints",
             constraintsReasons: "ConstraintsReasons",
-            statusType: "StatusType"
+            statusType: "StatusType",
+            scraper: "Scraper"
         }
     },
     mailer: {

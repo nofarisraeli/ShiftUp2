@@ -1,0 +1,23 @@
+<div id="scraping">
+    <button *ngIf="!isLoading" type="button" class="btn scan-btn" (click)="scrapData()">סריקת שכר מינימום במדינות העולם
+        <i class="fa fa-search"></i></button>
+    <div *ngIf="isLoading">נתונים בסריקה...</div>
+    <div *ngIf="states" class="search-container">
+        <h4>חיפוש</h4>
+        <div class="sector">
+            <label>מדינה:</label>
+            <select id="state">
+                <option *ngFor="let state of states" [ngValue]="state">{{state}}</option>
+            </select>
+        </div>
+        <div class="sector">
+            <label>מילות מפתח:</label>
+            1. <input [(ngModel)]="keyWords.first" type="text">
+            2. <input [(ngModel)]="keyWords.second" type="text">
+            3. <input [(ngModel)]="keyWords.third" type="text">
+        </div>
+        <button *ngIf="!isLoading" type="button" class="btn scan-btn" (click)="findKeyWords()">חיפוש מידע
+            <i class="fa fa-search"></i></button>
+        <div style="direction: ltr;" id="result"></div>
+    </div>
+</div>

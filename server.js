@@ -35,6 +35,7 @@ app.use('/api/businesses/', require('./modules/routes/businesses'));
 app.use('/api/workers/', require('./modules/routes/workers'));
 app.use('/api/constraints/', require('./modules/routes/constraints'));
 app.use('/api/schedule/', middlewares.CheckManager, require('./modules/routes/schedule'));
+app.use('/api/scraping/', middlewares.CheckManager, require('./modules/routes/scraping')());
 
 require('./modules/socket')(io, hll);
 
