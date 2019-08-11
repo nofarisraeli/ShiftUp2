@@ -60,6 +60,7 @@ export class NavbarComponent implements OnInit {
                 this.pages.push({ route: '/constraints', displayText: "אילוצים", icon: "fa fa-file-alt" });
                 this.pages.push({ route: '/schedule', displayText: "שיבוץ", icon: "fa fa-calendar-alt" });
                 this.pages.push({ route: '/statistics', displayText: "סטטיסטיקות", icon: "fa fa-chart-line" });
+                this.pages.push({ route: '/map', displayText: "מפה", icon: "fas fa-map-marked" });
             }
             this.pages.push({
                 route: '/login',

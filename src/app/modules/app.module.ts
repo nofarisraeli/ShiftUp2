@@ -30,6 +30,7 @@ import { StatisticsAgesComponent } from '../components/statistics/statisticsAges
 import { StatisticsSalariesComponent } from '../components/statistics/statisticsSalaries/statisticsSalaries.component';
 import { StatisticsShiftsComponent } from '../components/statistics/statisicsShifts/statisticsShifts.component';
 import { StatisticsConstraintsComponent } from '../components/statistics/statisticsConstraints/statisticsConstraints.component';
+import { MapComponent } from '../components/map/map.component';
 import { StatisticsUsersComponent } from '../components/statistics/statisticsUsers/statisticsUsers.component';
 import { ScrapingComponent } from '../components/statistics/scraping/scraping.component';
 
@@ -77,6 +78,7 @@ import { Routing } from '../routes/app.routing'
         StatisticsSalariesComponent,
         StatisticsShiftsComponent,
         StatisticsConstraintsComponent,
+        MapComponent,
         StatisticsUsersComponent,
         ScrapingComponent,
         LoginStatPipe

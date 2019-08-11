@@ -3,7 +3,7 @@ import { BasicService } from '../basic/basic.service';
 export class WorkersService extends BasicService {
     prefix = "/api/workers";
 
-    AddWorkerToBusiness(userId: string, job: string,  salary: number) {
+    AddWorkerToBusiness(userId: string, job: string, salary: number) {
         return super.post(this.prefix + '/addWorkerToBusiness', { userId, job, salary })
             .toPromise()
             .then((result: any) => result)
@@ -69,6 +69,12 @@ export class WorkersService extends BasicService {
     GetWorkersGroupByAgesDecades() {
         return super.get(this.prefix + '/getWorkersGroupByAgesDecades')
             .toPromise()
+            .then((result: any) => result)
+            .catch((err: any) => null);
+    }
+
+    GetWorkersMapCoordinates() {
+        return super.get(this.prefix + '/getWorkersMapCoordinates').toPromise()
             .then((result: any) => result)
             .catch((err: any) => null);
     }
