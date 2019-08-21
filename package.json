@@ -13,7 +13,7 @@
   "license": "MIT",
   "dependencies": {
     "@angular-devkit/build-angular": "~0.802.2",
-    "@angular-devkit/build-optimizer": "^0.802.0",
+    "@angular-devkit/build-optimizer": "^0.802.2",
     "@angular/animations": "~8.2.2",
     "@angular/cli": "~8.2.2",
     "@angular/common": "~8.2.2",
