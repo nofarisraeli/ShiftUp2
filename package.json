@@ -34,7 +34,7 @@
     "bootstrap-material-design": "^4.1.2",
     "cheerio": "^1.0.0-rc.3",
     "core-js-bundle": "^3.2.1",
-    "d3": "^5.9.7",
+    "d3": "^7.6.1",
     "express": "^4.17.1",
     "font-awesome": "^4.7.0",
     "fullcalendar": "^3.10.0",
