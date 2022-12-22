@@ -41,7 +41,7 @@
     "hll": "^1.1.1",
     "jquery": "^3.4.1",
     "js-sha512": "^0.8.0",
-    "jsonwebtoken": "^8.5.1",
+    "jsonwebtoken": "^9.0.0",
     "moment": "^2.24.0",
     "mongodb": "^3.2.7",
     "nodemailer": "^6.2.1",
